@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "InterplanetarySC", "InterplanetarySC\InterplanetarySC.vcxproj", "{C87B85FE-907B-4D7E-A89F-1151C17993A0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C87B85FE-907B-4D7E-A89F-1151C17993A0}.Debug|Win32.ActiveCfg = Debug|Win32
+		{C87B85FE-907B-4D7E-A89F-1151C17993A0}.Debug|Win32.Build.0 = Debug|Win32
+		{C87B85FE-907B-4D7E-A89F-1151C17993A0}.Release|Win32.ActiveCfg = Release|Win32
+		{C87B85FE-907B-4D7E-A89F-1151C17993A0}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
