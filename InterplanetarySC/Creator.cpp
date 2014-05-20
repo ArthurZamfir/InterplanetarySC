@@ -21,7 +21,7 @@ InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmode
 void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 {
 	MESHHANDLE mesh;
-	mesh = oapiLoadMeshGlobal("ThermalFissionCraft");
+	mesh = oapiLoadMeshGlobal("ThermalFissionCraft"); 
 
 	UINT idx;
 	idx = AddMesh(mesh);
@@ -29,7 +29,6 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 	SetMeshVisibilityMode(idx,MESHVIS_EXTERNAL);
 
 	SetSize(350.0);
-	//SetClipRadius(2.5);
 }
 
 DLLCLBK VESSEL* ovcInit(OBJHANDLE hvessel,int flightmodel)
