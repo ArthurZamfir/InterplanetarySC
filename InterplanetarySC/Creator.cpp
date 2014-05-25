@@ -1,5 +1,7 @@
 #define ORBITER_MODULE
 #include "orbitersdk.h"
+#include "ThrusterFactory.h"
+#include "VehicleAssembly.h"
 
 void InitModule (HINSTANCE hModule)
 {
@@ -29,6 +31,9 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 	SetMeshVisibilityMode(idx,MESHVIS_EXTERNAL);
 
 	SetSize(350.0);
+	
+	//VehicleAssembly vab;
+	//vab.CreatePropellantTanks();
 }
 
 DLLCLBK VESSEL* ovcInit(OBJHANDLE hvessel,int flightmodel)
