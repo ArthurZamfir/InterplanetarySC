@@ -16,8 +16,8 @@ public:
 	void setISP(double isp);
 	void setPropellantTank(PROPELLANT_HANDLE &prop);
 
-	THRUSTER_HANDLE GenerateThruster(const VECTOR3 &pos, const VECTOR3 &dir);
-	THRUSTER_HANDLE GenerateThruster(const VECTOR3 &pos, const VECTOR3 &dir, double maxth0,
+	THRUSTER_HANDLE *GenerateThruster(const VECTOR3 &pos, const VECTOR3 &dir);
+	THRUSTER_HANDLE *GenerateThruster(const VECTOR3 &pos, const VECTOR3 &dir, double maxth0,
 		PROPELLANT_HANDLE hp, double isp0);
 	
 };

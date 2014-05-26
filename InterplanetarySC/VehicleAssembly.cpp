@@ -3,16 +3,24 @@
 #include "ThrusterFactory.h"
 #include "TankFactory.h"
 
-void VehicleAssembly::CreatePropellantTanks(VESSEL3 &vessel)
+VehicleAssembly::VehicleAssembly(VESSEL3 &vessel)
 {
-	TankFactory *factory = new TankFactory(vessel,800000);
-	mainTank = factory->GenerateTank();
-	rcsTank = factory->GenerateTank(6000.0);
+	defaultVessel = &vessel;
 }
 
-void VehicleAssembly::CreateThrusters(VESSEL3 &vessel)
+void VehicleAssembly::CreatePropellantTanks()
 {
-	ThrusterFactory *factory = new ThrusterFactory(vessel,350000.0,8300,mainTank);
+	TankFactory *factory = new TankFactory(*defaultVessel,800000);
+    mainTank = factory->GenerateTank();
+	//mainTank = defaultVessel->CreatePropellantResource(800000);
+	//rcsTank = factory->GenerateTank(6000.0);
+}
 
-	factory->GenerateThruster(_V(0,0,-290),_V(0,0,1));
+void VehicleAssembly::CreateThrusters()
+{
+	ThrusterFactory *factory = new ThrusterFactory(*defaultVessel,350000.0,8300,mainTank);
+
+	THRUSTER_HANDLE *mainEngine = factory->GenerateThruster(_V(0,0,-290),_V(0,0,1));
+	defaultVessel->CreateThrusterGroup(mainEngine,2,THGROUP_ATT_FORWARD);
+	defaultVessel->AddExhaust(mainEngine,100,10);
 }

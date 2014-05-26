@@ -3,8 +3,10 @@
 class VehicleAssembly
 {
 private:
+	VESSEL3 *defaultVessel;
 	PROPELLANT_HANDLE mainTank,rcsTank;
 public:
-	void CreatePropellantTanks(VESSEL3 &vessel);
-	void CreateThrusters(VESSEL3 &vessel);
+	VehicleAssembly(VESSEL3 &vessel);
+	void CreatePropellantTanks();
+	void CreateThrusters();
 };
