@@ -42,7 +42,11 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 	THRUSTER_HANDLE group1[1];
 	group1[0] = mainThr;
 	CreateThrusterGroup(group1,1,THGROUP_ATT_FORWARD);
+<<<<<<< HEAD
 	AddExhaust(mainThr,100,10); 
+=======
+	AddExhaust(mainThr,100,10);
+>>>>>>> e731af54f37c4834742a5ea601aee9e392fc4377
 	
 	//vab.CreatePropellantTanks();
 	//vab.CreateThrusters();
