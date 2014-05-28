@@ -44,6 +44,10 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 	CreateThrusterGroup(group1,1,THGROUP_ATT_FORWARD);
 	AddExhaust(mainThr,100,10); 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 00cd6b2495e675d7687fe4e3ed9f34090c00e394
 =======
 
 >>>>>>> 00cd6b2495e675d7687fe4e3ed9f34090c00e394
