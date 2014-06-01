@@ -70,14 +70,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Creator.cpp" />
-    <ClCompile Include="TankFactory.cpp" />
-    <ClCompile Include="ThrusterFactory.cpp" />
-    <ClCompile Include="VehicleAssembly.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="TankFactory.h" />
-    <ClInclude Include="ThrusterFactory.h" />
-    <ClInclude Include="VehicleAssembly.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

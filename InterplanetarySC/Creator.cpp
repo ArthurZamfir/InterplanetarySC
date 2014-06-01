@@ -43,9 +43,7 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 	group1[0] = mainThr;
 	CreateThrusterGroup(group1,1,THGROUP_ATT_FORWARD);
 	AddExhaust(mainThr,100,10); 
-	
-	//vab.CreatePropellantTanks();
-	//vab.CreateThrusters();
+
 }
 
 DLLCLBK VESSEL* ovcInit(OBJHANDLE hvessel,int flightmodel)

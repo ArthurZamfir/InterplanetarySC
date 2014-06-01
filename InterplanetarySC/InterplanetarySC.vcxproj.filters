@@ -18,25 +18,5 @@
     <ClCompile Include="Creator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ThrusterFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="VehicleAssembly.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="TankFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="ThrusterFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VehicleAssembly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TankFactory.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
 </Project>
