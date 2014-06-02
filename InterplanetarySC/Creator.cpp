@@ -27,7 +27,7 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 {
 	MESHHANDLE mesh;
 	mesh = oapiLoadMeshGlobal("ThermalFissionCraft"); 
-
+	
 	UINT idx;
 	idx = AddMesh(mesh);
 
