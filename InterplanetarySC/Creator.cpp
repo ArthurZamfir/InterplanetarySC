@@ -1,7 +1,6 @@
 #define ORBITER_MODULE
 #include "orbitersdk.h"
-#include "ThrusterFactory.h"
-#include "VehicleAssembly.h"
+#include "Logger.h"
 
 void InitModule (HINSTANCE hModule)
 {
@@ -33,16 +32,21 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 
 	SetMeshVisibilityMode(idx,MESHVIS_EXTERNAL);
 
-	SetSize(350.0);
+	
+	SetSize(350.0); 
 	SetEmptyMass(5000.0);
 
-	VehicleAssembly vab((VESSEL3) this);
+	Logger l("LOGtest.txt");
+	l.logLine("Das ist eine Zeile");
+	l.logLine("Das ist eine andere Zeile");
+	l.logLine("Die meisten Menschen sind verwirrt, wenn Sätze nicht so aufhören wie sie Banane.");
+
 	mainTank = CreatePropellantResource(8000.0);
 	mainThr = CreateThruster(_V(0.0,0.0,-290.0),_V(0.0,0.0,1.0),800000.0,mainTank,8000.0);
 	THRUSTER_HANDLE group1[1];
 	group1[0] = mainThr;
 	CreateThrusterGroup(group1,1,THGROUP_ATT_FORWARD);
-	AddExhaust(mainThr,100,10); 
+	AddExhaust(mainThr,1000,10); 
 
 }
 

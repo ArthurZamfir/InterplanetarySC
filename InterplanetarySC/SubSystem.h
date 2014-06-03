@@ -105,18 +105,18 @@ PASSIVE_ERROR:		status = PASSIVE_ERROR;
 
 std::string SubSystem::report()
 {
-	for each (std::string var in currentValues)
+	for (std::map<std::string,double>::iterator it = currentValues.begin();it!=currentValues.end();++it)
 	{
-
+		//it->first = 
 	}
 }
 
-void SubSystem::connectSubSystemToInput(SubSystem s,std::string val[])
-{
-	inputSystems.insert(<s,val>);
-}
-
-void SubSystem::connectSubSystemToOutput(SubSystem s,std::string val[])
-{
-	inputSystems.insert(<s,val>);
-}
+//void SubSystem::connectSubSystemToInput(SubSystem s,std::string val[])
+//{
+//	inputSystems.insert(<s,val>);
+//}
+//
+//void SubSystem::connectSubSystemToOutput(SubSystem s,std::string val[])
+//{
+//	inputSystems.insert(<s,val>);
+//}

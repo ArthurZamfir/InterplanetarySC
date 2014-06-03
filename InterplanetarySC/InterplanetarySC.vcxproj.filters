@@ -18,15 +18,12 @@
     <ClCompile Include="Creator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Thruster.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SubSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Thruster.h">
+    <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
