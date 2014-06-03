@@ -1,6 +1,7 @@
 #define ORBITER_MODULE
 #include "orbitersdk.h"
 #include "Logger.h"
+#include "SubSystem.h"
 
 void InitModule (HINSTANCE hModule)
 {
@@ -40,6 +41,9 @@ void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 	l.logLine("Das ist eine Zeile");
 	l.logLine("Das ist eine andere Zeile");
 	l.logLine("Die meisten Menschen sind verwirrt, wenn Sätze nicht so aufhören wie sie Banane.");
+	SubSystem testSys("Brennstoffzelle");
+	testSys.setInitialData();
+	l.logLine(testSys.report());
 
 	mainTank = CreatePropellantResource(8000.0);
 	mainThr = CreateThruster(_V(0.0,0.0,-290.0),_V(0.0,0.0,1.0),800000.0,mainTank,8000.0);

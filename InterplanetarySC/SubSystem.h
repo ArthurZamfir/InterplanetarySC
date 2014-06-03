@@ -25,98 +25,26 @@ enum STATUS{
 class SubSystem
 {
 private:
-	std::string name;
+	std::string sName;
 	std::map<std::string,double> input;
 	std::map<std::string,double> output;
-	std::map<SubSystem,std::string[]> inputSystems;
-	std::map<SubSystem,std::string[]> outputSystems;
+	std::map<SubSystem*,std::string[]> inputSystems;
+	std::map<SubSystem*,std::string[]> outputSystems;
 	std::map<std::string,double> currentValues;
 	STATUS status;
 
+	std::string getStatusAsString();
 public:
-	
-	SubSystem(std::string name)
-	{
-		SubSystem::name = name;
-	}
-
-	~SubSystem(void)
-	{
-	}
-
+	SubSystem(std::string name);
+	~SubSystem(void);
 	std::string getName();
-
-	bool activate();
-	bool deactivate();
-
+	void activate();
+	void deactivate();
 	std::string report();
-
 	void connectSubSystemToInput(SubSystem,std::string[]);
 	void connectSubSystemToOutput(SubSystem,std::string[]);
-
 	virtual void setInitialData();
-
-	virtual void calculateStep();
-
-	virtual void writeConnectedInputs();
-	virtual void writeConnectedOutputs();
+	//virtual void calculateStep();
+	//virtual void writeConnectedInputs();
+	//virtual void writeConnectedOutputs();
 };
-
-std::string SubSystem::getName()
-{
-	return name;
-}
-
-bool SubSystem::activate()
-{
-	switch (status){
-ACTIVE:				status = ACTIVE;
-					break;
-PASSIVE:			status = ACTIVE;
-					break;
-ACTIVE_WARNING:		status = ACTIVE_WARNING;
-					break;
-ACTIVE_ERROR:		status = ACTIVE_ERROR;
-					break;
-PASSIVE_WARNING:	status = ACTIVE_WARNING;
-					break;
-PASSIVE_ERROR:		status = ACTIVE_ERROR;
-					break;
-	}
-}
-
-bool SubSystem::deactivate()
-{
-	switch (status){
-ACTIVE:				status = PASSIVE;
-					break;
-PASSIVE:			status = PASSIVE;
-					break;
-ACTIVE_WARNING:		status = PASSIVE_WARNING;
-					break;
-ACTIVE_ERROR:		status = PASSIVE_ERROR;
-					break;
-PASSIVE_WARNING:	status = PASSIVE_WARNING;
-					break;
-PASSIVE_ERROR:		status = PASSIVE_ERROR;
-					break;
-	}
-}
-
-std::string SubSystem::report()
-{
-	for (std::map<std::string,double>::iterator it = currentValues.begin();it!=currentValues.end();++it)
-	{
-		//it->first = 
-	}
-}
-
-//void SubSystem::connectSubSystemToInput(SubSystem s,std::string val[])
-//{
-//	inputSystems.insert(<s,val>);
-//}
-//
-//void SubSystem::connectSubSystemToOutput(SubSystem s,std::string val[])
-//{
-//	inputSystems.insert(<s,val>);
-//}

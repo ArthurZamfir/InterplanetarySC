@@ -70,6 +70,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Creator.cpp" />
+    <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="SubSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h" />
