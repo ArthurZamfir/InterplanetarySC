@@ -1,27 +1,14 @@
 #include "SubSystem.h"
 
-
-SubSystem::SubSystem(std::string name)
+SubSystem::SubSystem(VESSEL3* vessel,std::string name)
 {
-	sName = name;
-	status = ACTIVE;
+	v=vessel;
+	sName=name;
 }
 
 SubSystem::~SubSystem(void)
 {
-}
-
-std::string SubSystem::getStatusAsString()
-{
-	switch (status){
-case ACTIVE:			return "ACTIVE";
-case PASSIVE:			return "PASSIVE";
-case ACTIVE_WARNING:	return "ACTIVE_WARNING";
-case ACTIVE_ERROR:		return "ACTIVE_ERROR";
-case PASSIVE_WARNING:	return "PASSIVE_WARNING";
-case PASSIVE_ERROR:		return "PASSIVE_ERROR";
-default:				return "NOT DEFINED";
-	}
+	delete v;
 }
 
 std::string SubSystem::getName()
@@ -83,9 +70,20 @@ std::string SubSystem::report()
 	return s;
 }
 
-void SubSystem::setInitialData()
+std::string SubSystem::getStatusAsString()
 {
-	currentValues["O2"] = 500.0;
-	currentValues["H2"] = 1000.0;
-	currentValues["H2O"] = 500.0;
+	switch (status){
+case ACTIVE:			return "ACTIVE";
+case PASSIVE:			return "PASSIVE";
+case ACTIVE_WARNING:	return "ACTIVE_WARNING";
+case ACTIVE_ERROR:		return "ACTIVE_ERROR";
+case PASSIVE_WARNING:	return "PASSIVE_WARNING";
+case PASSIVE_ERROR:		return "PASSIVE_ERROR";
+default:				return "NOT DEFINED";
+	}
+}
+
+void SubSystem::connectSubSystemToInput(SubSystem* ss,std::string links[])
+{
+	inputSystems[ss] = links[5];
 }

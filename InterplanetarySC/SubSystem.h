@@ -9,6 +9,7 @@ auch im Kreis flieﬂen. Eine sich daraus ergebende unendliche Schleife wird
 umgangen, indem auf die aktualisieren() Funktion verzichtet wird und jedes
 Subsystem seine (errechneten) Daten in andere Subsysteme speichern kann.
 */
+#include "Orbitersdk.h"
 #include <map>
 #include <string>
 
@@ -25,6 +26,7 @@ enum STATUS{
 class SubSystem
 {
 private:
+	VESSEL3* v;
 	std::string sName;
 	std::map<std::string,double> input;
 	std::map<std::string,double> output;
@@ -33,17 +35,17 @@ private:
 	std::map<std::string,double> currentValues;
 	STATUS status;
 
-	std::string getStatusAsString();
+	void initializeSystem();	
 public:
-	SubSystem(std::string name);
+	SubSystem(VESSEL3*,std::string);
 	~SubSystem(void);
 	std::string getName();
 	void activate();
 	void deactivate();
 	std::string report();
-	void connectSubSystemToInput(SubSystem,std::string[]);
-	void connectSubSystemToOutput(SubSystem,std::string[]);
-	virtual void setInitialData();
+	std::string getStatusAsString();
+	void connectSubSystemToInput(SubSystem*,std::string[]);
+	void connectSubSystemToOutput(SubSystem*,std::string[]);
 	//virtual void calculateStep();
 	//virtual void writeConnectedInputs();
 	//virtual void writeConnectedOutputs();
