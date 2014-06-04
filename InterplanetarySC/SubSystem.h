@@ -35,7 +35,8 @@ private:
 	std::map<std::string,double> currentValues;
 	STATUS status;
 
-	void initializeSystem();	
+
+	void initializeSystem();
 public:
 	SubSystem(VESSEL3*,std::string);
 	~SubSystem(void);

@@ -85,5 +85,6 @@ default:				return "NOT DEFINED";
 
 void SubSystem::connectSubSystemToInput(SubSystem* ss,std::string links[])
 {
+	//Wie kann ich ein Array richtig kopieren? also nicht als Referenz!
 	inputSystems[ss] = links[5];
 }
