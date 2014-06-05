@@ -12,6 +12,7 @@ Subsystem seine (errechneten) Daten in andere Subsysteme speichern kann.
 #include "Orbitersdk.h"
 #include <map>
 #include <string>
+#include <vector>
 
 /*
 In dieser Auflistung sind die jeweiligen Zustände des Subsystems enthalten.
@@ -30,11 +31,10 @@ private:
 	std::string sName;
 	std::map<std::string,double> input;
 	std::map<std::string,double> output;
-	std::map<SubSystem*,std::string[]> inputSystems;
-	std::map<SubSystem*,std::string[]> outputSystems;
+	std::map<SubSystem*,std::vector<std::string>> inputSystems;
+	std::map<SubSystem*,std::vector<std::string>> outputSystems;
 	std::map<std::string,double> currentValues;
 	STATUS status;
-
 
 	void initializeSystem();
 public:
@@ -45,8 +45,8 @@ public:
 	void deactivate();
 	std::string report();
 	std::string getStatusAsString();
-	void connectSubSystemToInput(SubSystem*,std::string[]);
-	void connectSubSystemToOutput(SubSystem*,std::string[]);
+	void connectSubSystemToInput(SubSystem*,std::vector<std::string>);
+	void connectSubSystemToOutput(SubSystem*,std::vector<std::string>);
 	//virtual void calculateStep();
 	//virtual void writeConnectedInputs();
 	//virtual void writeConnectedOutputs();

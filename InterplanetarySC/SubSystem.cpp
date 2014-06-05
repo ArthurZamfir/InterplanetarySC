@@ -83,8 +83,11 @@ default:				return "NOT DEFINED";
 	}
 }
 
-void SubSystem::connectSubSystemToInput(SubSystem* ss,std::string links[])
+void SubSystem::connectSubSystemToInput(SubSystem* ss,std::vector<std::string> links)
 {
 	//Wie kann ich ein Array richtig kopieren? also nicht als Referenz!
-	inputSystems[ss] = links[5];
+	//Man könnte die Links evtl als eigene Klassen erstellen?
+	//Was wären die Vor- und Nachteile?
+	//Vielleicht dann im Header alle Links als <typedef> speichern.
+	inputSystems[ss] = links;
 }
