@@ -4,6 +4,7 @@ SubSystem::SubSystem(VESSEL3* vessel,std::string name)
 {
 	v=vessel;
 	sName=name;
+	initializeSystem();
 }
 
 SubSystem::~SubSystem(void)
@@ -62,7 +63,7 @@ std::string SubSystem::report()
 	s.append(SubSystem::getStatusAsString());
 	s.append("\n");
 
-	for (std::map<std::string,double>::iterator it = currentValues.begin();it!=currentValues.end();++it)
+	for (std::map<std::string,double>::iterator it = attributes.begin();it!=attributes.end();++it)
 	{
 		s.append(it->first).append("\t\t").append(std::to_string(it->second)).append("\n");
 	}
@@ -85,9 +86,24 @@ default:				return "NOT DEFINED";
 
 void SubSystem::connectSubSystemToInput(SubSystem* ss,std::vector<std::string> links)
 {
-	//Wie kann ich ein Array richtig kopieren? also nicht als Referenz!
-	//Man könnte die Links evtl als eigene Klassen erstellen?
-	//Was wären die Vor- und Nachteile?
-	//Vielleicht dann im Header alle Links als <typedef> speichern.
 	inputSystems[ss] = links;
+}
+
+void SubSystem::connectSubSystemToOutput(SubSystem* ss,std::vector<std::string> links)
+{
+	outputSystems[ss] = links;
+}
+
+void SubSystem::writeConnectedInputs()
+{
+
+}
+
+void SubSystem::writeConnectedOutputs()
+{
+
+}
+
+void SubSystem::initializeSystem()
+{
 }
