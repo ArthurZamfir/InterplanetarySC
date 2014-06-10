@@ -70,12 +70,16 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Creator.cpp" />
+    <ClCompile Include="Link.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="Port.cpp" />
     <ClCompile Include="SubSystem.cpp" />
     <ClCompile Include="Thruster.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Link.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="Port.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="SubSystem.h" />
     <ClInclude Include="Thruster.h" />

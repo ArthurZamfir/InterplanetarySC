@@ -10,6 +10,7 @@ umgangen, indem auf die aktualisieren() Funktion verzichtet wird und jedes
 Subsystem seine (errechneten) Daten in andere Subsysteme speichern kann.
 */
 #include "Orbitersdk.h"
+#include "Link.h"
 #include <map>
 #include <string>
 #include <vector>
@@ -29,10 +30,12 @@ class SubSystem
 private:
 	VESSEL3* v;
 	std::string sName;
-	std::map<std::string,double> input;
-	std::map<std::string,double> output;
-	std::map<SubSystem*,std::vector<std::string>> inputSystems;
-	std::map<SubSystem*,std::vector<std::string>> outputSystems;
+	std::vector<Link> inputStreams;
+	std::vector<Link> outputStreams;
+	//std::map<std::string,double> input;
+	//std::map<std::string,double> output;
+	//std::map<SubSystem*,std::vector<std::string>> inputSystems;
+	//std::map<SubSystem*,std::vector<std::string>> outputSystems;
 	std::map<std::string,double> attributes;
 	STATUS status;
 
@@ -48,8 +51,8 @@ public:
 	void deactivate();
 	std::string report();
 	std::string getStatusAsString();
-	void connectSubSystemToInput(SubSystem*,std::vector<std::string>);
-	void connectSubSystemToOutput(SubSystem*,std::vector<std::string>);
+	void connectLinkToInput(Link*);
+	void connectLinkToOutput(Link*);
 	/*
 	In dieser Funktion werden auf Basis der Attribute und der 
 	*/
