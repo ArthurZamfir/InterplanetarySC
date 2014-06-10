@@ -5,13 +5,13 @@ class Link
 {
 private:
 	Port p1,p2;
-	SubSystem *s1,*s2;
+	Port *ptrp1,*ptrp2;
 	std::string classi;
 public:
 	Link(std::string classifier);
 	~Link(void);
 
 	void transfer();
-	int attach(SubSystem *ss);
+	Port* getPort();
 };
 

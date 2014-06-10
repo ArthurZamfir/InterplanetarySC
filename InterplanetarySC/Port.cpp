@@ -17,18 +17,28 @@ double Port::getValue()
 	return v;
 }
 
-void Port::setSubSystem(SubSystem *ss)
+void Port::setValue(double value)
 {
-	s = ss;
-	attached = true;
+	v = value;
 }
 
-SubSystem *Port::getSubSystem()
-{
-	return s;
-}
+//void Port::setSubSystem(SubSystem *ss)
+//{
+//	s = ss;
+//	attached = true;
+//}
+
+//SubSystem *Port::getSubSystem()
+//{
+//	return s;
+//}
 
 bool Port::isAttached()
 {
 	return attached;
+}
+
+void Port::setAttached()
+{
+	attached = true;
 }

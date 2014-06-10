@@ -84,14 +84,15 @@ default:				return "NOT DEFINED";
 	}
 }
 
-void SubSystem::connectSubSystemToInput(SubSystem* ss,std::vector<std::string> links)
+void SubSystem::connectPortToInput(Port* port)
 {
-	inputSystems[ss] = links;
+	inputStreams.push_back(port);
+
 }
 
-void SubSystem::connectSubSystemToOutput(SubSystem* ss,std::vector<std::string> links)
+void SubSystem::connectPortToOutput(Port* port)
 {
-	outputSystems[ss] = links;
+	outputStreams.push_back(port);
 }
 
 void SubSystem::writeConnectedInputs()

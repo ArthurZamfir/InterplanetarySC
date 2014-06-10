@@ -4,6 +4,8 @@
 Link::Link(std::string classifier)
 {
 	classi = classifier;
+	*ptrp1 = p1;
+	*ptrp2 = p2;
 }
 
 
@@ -13,22 +15,21 @@ Link::~Link(void)
 
 void Link::transfer()
 {
-	double temp = p1.getValue;
-	p1.getValue = p2.getValue;
-	p2.getValue = temp;
+	double temp = p1.getValue();
+	p1.setValue(p2.getValue());
+	p2.setValue(temp);
 }
 
-int Link::attach(SubSystem *ss)
+Port* Link::getPort()
 {
-	if(!p1.isAttached)
+	if(!p1.isAttached())
 	{
-		p1.setSubSystem(ss);
-		return 0;
+		return ptrp1;
 	}
-	else if(!p2.isAttached)
+	else if(!p2.isAttached())
 	{
-		p2.setSubSystem(ss);
-		return 0;
+		return ptrp2;
 	}
-	else return 1;
+	else return nullptr;
 }
+

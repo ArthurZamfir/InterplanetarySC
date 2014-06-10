@@ -4,14 +4,13 @@ class Port
 private:
 	bool attached;
 	double v;
-	SubSystem *s;
 public:
 	Port();
 	~Port(void);
 
 	double getValue();
-	void setSubSystem(SubSystem *ss);
+	void setValue(double value);
 	bool isAttached();
-	SubSystem* getSubSystem();
+	void setAttached();
 };
 
