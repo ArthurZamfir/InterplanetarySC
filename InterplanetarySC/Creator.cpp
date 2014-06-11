@@ -1,5 +1,6 @@
 #define ORBITER_MODULE
 #include "orbitersdk.h"
+#include "OrbiterAPI.h"
 #include "Logger.h"
 #include "SubSystem.h"
 
@@ -16,11 +17,12 @@ public:
 private:
 	PROPELLANT_HANDLE mainTank;
 	THRUSTER_HANDLE mainThr;
+	double *a;
 };
 
 InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmodel)
 {
-
+	
 }
  
 void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
