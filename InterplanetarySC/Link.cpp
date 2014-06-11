@@ -4,6 +4,8 @@
 Link::Link(std::string classifier)
 {
 	classi = classifier;
+	p1.setClassifier(classifier);
+	p2.setClassifier(classifier);
 	*ptrp1 = p1;
 	*ptrp2 = p2;
 }

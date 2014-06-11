@@ -12,6 +12,11 @@ Port::~Port(void)
 {
 }
 
+void Port::setClassifier(std::string classifier)
+{
+	classi = classifier;
+}
+
 double Port::getValue()
 {
 	return v;
@@ -20,6 +25,11 @@ double Port::getValue()
 void Port::setValue(double value)
 {
 	v = value;
+}
+
+void Port::addValue(double value)
+{
+	v = v + value;
 }
 
 //void Port::setSubSystem(SubSystem *ss)
@@ -41,4 +51,9 @@ bool Port::isAttached()
 void Port::setAttached()
 {
 	attached = true;
+}
+
+std::string Port::getClassifier()
+{
+	return classi;
 }

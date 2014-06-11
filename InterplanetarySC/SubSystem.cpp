@@ -87,12 +87,14 @@ default:				return "NOT DEFINED";
 void SubSystem::connectPortToInput(Port* port)
 {
 	inputStreams.push_back(port);
+	port->setAttached();
 
 }
 
 void SubSystem::connectPortToOutput(Port* port)
 {
 	outputStreams.push_back(port);
+	port->setAttached();
 }
 
 void SubSystem::writeConnectedInputs()
