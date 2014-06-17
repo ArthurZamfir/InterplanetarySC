@@ -4,9 +4,10 @@
 #include "Logger.h"
 #include "SubSystem.h"
 
+
 void InitModule (HINSTANCE hModule)
 {
-
+	
 }
 
 class InterplanetarySC:public VESSEL3

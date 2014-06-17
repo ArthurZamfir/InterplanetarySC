@@ -16,7 +16,6 @@
     <data key="d7"/>
     <node id="n0" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -152,7 +151,6 @@ Ambient Temperature [K]<y:LabelModel>
     </node>
     <node id="n1" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -285,7 +283,6 @@ Ambient Temperature [K]<y:LabelModel>
     </node>
     <node id="n2" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -377,7 +374,6 @@ Ambient Temperature [K]<y:LabelModel>
     </node>
     <node id="n3" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -493,7 +489,6 @@ Ambient Temperature [K]<y:LabelModel>
     </node>
     <node id="n4" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -566,7 +561,6 @@ Ambient Temperature [K]<y:LabelModel>
     </node>
     <node id="n5" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
@@ -950,11 +944,13 @@ Group [-]<y:LabelModel>
       <data key="d4"/>
       <data key="d6">
         <y:UMLNoteNode>
-          <y:Geometry height="78.0" width="301.0" x="0.0" y="1620.1931596679467"/>
+          <y:Geometry height="101.64692667384293" width="301.0" x="0.0" y="1620.1931596679465"/>
           <y:Fill color="#FFCC00" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="62.8046875" modelName="custom" textColor="#000000" visible="true" width="290.787109375" x="4.0" y="7.59765625">Es werden hier nur die Datenverbindungen vom
-OBC zur Kommunikationsschnittstelle angezeigt.
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="92.20703125" modelName="custom" textColor="#000000" visible="true" width="290.787109375" x="4.0" y="4.71994771192135">Es werden hier nicht alle Datenverbindungen des
+OBC visualisiert, sondern nur die Sensordaten
+und Datenströme mit dem Speicher und der
+Kommunikationsstrecke.
 Selbstverständlich ist der OBC mit allen Subsystemen
 verbunden, was jedoch die Grafik sprengen würde.<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
@@ -1010,7 +1006,6 @@ verbunden, was jedoch die Grafik sprengen würde.<y:LabelModel>
     </node>
     <node id="n10" yfiles.foldertype="group">
       <data key="d4"/>
-      <data key="d5"/>
       <data key="d6">
         <y:ProxyAutoBoundsNode>
           <y:Realizers active="0">
