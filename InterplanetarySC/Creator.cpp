@@ -1,13 +1,21 @@
 #define ORBITER_MODULE
+#include <Windows.h>
+#include <stdio.h>
 #include "orbitersdk.h"
 #include "OrbiterAPI.h"
 #include "Logger.h"
 #include "SubSystem.h"
 
+HINSTANCE g_hInst;
 
 void InitModule (HINSTANCE hModule)
 {
-	
+	g_hInst = hModule;
+
+}
+
+DLLCLBK void ExitModule (HINSTANCE hDLL)
+{
 }
 
 class InterplanetarySC:public VESSEL3
