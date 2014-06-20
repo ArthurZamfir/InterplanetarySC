@@ -1,38 +1,118 @@
 #define ORBITER_MODULE
+#include "resource.h"
 #include <Windows.h>
 #include <stdio.h>
 #include "orbitersdk.h"
 #include "OrbiterAPI.h"
+#include "ScnEditorAPI.h"
 #include "Logger.h"
 #include "SubSystem.h"
 
+
 HINSTANCE g_hInst;
 
-void InitModule (HINSTANCE hModule)
+
+
+class InterplanetarySC:public VESSEL3
+{
+public:
+	
+	InterplanetarySC(OBJHANDLE hObj,int fmodel);
+	~InterplanetarySC();
+	void clbkSetClassCaps(FILEHANDLE cfg);
+	bool clbkLoadPanel2D(int id,PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
+	static SURFHANDLE panel2dtex;
+private:
+	
+	PROPELLANT_HANDLE mainTank;
+	THRUSTER_HANDLE mainThr;
+	MESHHANDLE hPanelMesh;
+	double *a;
+	void DefineMainPanel(PANELHANDLE hPanel);
+	void ScalePanel(PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
+};
+
+SURFHANDLE InterplanetarySC::panel2dtex = NULL;
+
+InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmodel)
+{
+	hPanelMesh = NULL;
+}
+
+DLLCLBK void InitModule (HINSTANCE hModule)
 {
 	g_hInst = hModule;
-
+	InterplanetarySC::panel2dtex = oapiLoadTexture("InterplanetarySC\\panel2d.dds");
+	
 }
 
 DLLCLBK void ExitModule (HINSTANCE hDLL)
 {
 }
 
-class InterplanetarySC:public VESSEL3
-{
-public:
-	InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel);
-	void clbkSetClassCaps(FILEHANDLE cfg);
-private:
-	PROPELLANT_HANDLE mainTank;
-	THRUSTER_HANDLE mainThr;
-	double *a;
-};
 
-InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmodel)
+
+InterplanetarySC::~InterplanetarySC()
 {
-	
+	if(hPanelMesh) oapiDeleteMesh(hPanelMesh);
+	oapiDestroySurface(panel2dtex);
 }
+
+
+bool InterplanetarySC::clbkLoadPanel2D(int id,PANELHANDLE hPanel,
+									   DWORD viewW, DWORD viewH)
+{
+	switch(id)
+	{
+	case 0:
+		DefineMainPanel(hPanel);
+		ScalePanel(hPanel, viewW,viewH);
+		return true;
+	default:
+		return false;
+	}
+
+}
+
+void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
+{
+	static DWORD panelW = 1280;
+	static DWORD panelH = 400;
+	float fpanelW = (float)panelW;
+	float fpanbelH = (float)panelH;
+	static DWORD texW = 2048;
+	static DWORD texH = 512;
+	float ftexW = (float)texW;
+	float ftexH = (float)texH;
+
+	static NTVERTEX VTX[4] = {
+		{0,0,0,0,0,0,0.0f,1.0f-fpanbelH/ftexH},
+		{0,fpanbelH,0,0,0,0,0.0f,1.0f},
+		{fpanelW,fpanbelH,0,0,0,0,fpanelW/ftexW,1.0f},
+		{fpanelW,0,0,0,0,0,fpanelW/ftexW,1.0f-fpanbelH/ftexH},
+	};
+	static WORD IDX[6] = {
+		0,2,1,
+		2,0,3
+	};
+
+	if(hPanelMesh) oapiDeleteMesh(hPanelMesh);
+	hPanelMesh = oapiCreateMesh(0,0);
+	MESHGROUP grp = {VTX,IDX,4,6,0,0,0,0,0};
+	oapiAddMeshGroup(hPanelMesh,&grp);
+	SetPanelBackground(hPanel,&panel2dtex,1,hPanelMesh,panelW,panelH,0,
+		PANEL_ATTACH_BOTTOM | PANEL_MOVEOUT_BOTTOM);
+}
+
+
+
+void InterplanetarySC::ScalePanel(PANELHANDLE hPanel, DWORD viewW, DWORD viewH)
+{
+	double defscale = (double)viewW/1280.0;
+	double magscale = max (defscale,1.0);
+	SetPanelScaling(hPanel,defscale,magscale);
+}
+
  
 void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
 {
