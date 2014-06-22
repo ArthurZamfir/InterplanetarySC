@@ -11,7 +11,7 @@ class Logger
 {
 private:
 	std::string filename;
-	std::ofstream file;
+	std::fstream file;
 public:
 	Logger(std::string name);
 	~Logger(void);
