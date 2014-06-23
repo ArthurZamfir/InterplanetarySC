@@ -19,6 +19,7 @@ public:
 	void clbkSetClassCaps(FILEHANDLE cfg);
 	bool clbkLoadPanel2D(int id,PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
 	static SURFHANDLE panel2dtex;
+	static SURFHANDLE fontTex;
 	bool clbkPanelMouseEvent(int id,int event,int mx,int my,void *context);
 	bool clbkPanelRedrawEvent(int id,int event,SURFHANDLE surf,void *context);
 	PanelElement *pel[2];
@@ -34,6 +35,7 @@ private:
 
 HINSTANCE g_hInst;
 SURFHANDLE InterplanetarySC::panel2dtex = NULL;
+SURFHANDLE InterplanetarySC::fontTex = NULL;
 Logger systemLog("Spacecraft_Systemlog.txt");
 
 InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmodel)
@@ -47,6 +49,7 @@ InterplanetarySC::~InterplanetarySC()
 {
 	if(hPanelMesh) oapiDeleteMesh(hPanelMesh);
 	oapiDestroySurface(panel2dtex);
+	oapiDestroySurface(fontTex);
 	for (int i = 0; i < 2; i++)
 		delete pel[i];
 }
@@ -55,6 +58,7 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 {
 	g_hInst = hModule;
 	InterplanetarySC::panel2dtex = oapiLoadTexture("InterplanetarySC\\gimp.dds");
+	InterplanetarySC::fontTex = oapiLoadTexture("InterplanetarySC\\font.dds");
 	systemLog.logLine("Initialisiert");
 	
 }
@@ -87,7 +91,7 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 {
 	systemLog.logLine("DefineMainPanel");
 	static DWORD panelW = 1280;
-	static DWORD panelH = 543;
+	static DWORD panelH = 1024;
 	float fpanelW = (float)panelW;
 	float fpanbelH = (float)panelH;
 	static DWORD texW = 2048;
@@ -155,6 +159,15 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
     PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
     panel2dtex, pel[1]);
 
+ //   RegisterPanelArea (hPanel, AID_MFD_LBUTTONS, _R(x0,y0,x1,y1),
+ //   PANEL_REDRAW_USER,
+ //   PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
+	//fontTex, pel[0]);
+ // RegisterPanelArea (hPanel, AID_MFD_RBUTTONS, _R(x2,y0,x3,y1),
+ //   PANEL_REDRAW_USER,
+ //   PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
+ //   fontTex, pel[1]);
+
 }
 
 
@@ -170,9 +183,10 @@ void InterplanetarySC::ScalePanel(PANELHANDLE hPanel, DWORD viewW, DWORD viewH)
 bool InterplanetarySC::clbkPanelMouseEvent(int id,int event,int mx,int my,void *context)
 {
 	std::string s = std::to_string(event)  +" - " + std::to_string(mx)  +" - "+ std::to_string(my);
-	//systemLog.logLine(s);
+	systemLog.logLine(s);
+	systemLog.logLine("PENIS");
   if (context) {
-	 // systemLog.logLine("CLICKED!");
+	systemLog.logLine("CLICKED!");
     PanelElement *pe = (PanelElement*)context;
     return pe->ProcessMouse2D (event, mx, my);
   } else
@@ -186,7 +200,8 @@ bool InterplanetarySC::clbkPanelRedrawEvent(int id,int event,SURFHANDLE surf,voi
   if (context) {
 	  systemLog.logLine("Redraw");
     PanelElement *pe = (PanelElement*)context;
-    return pe->Redraw2D (surf);
+	return pe->Redraw2D (surf,surf);
+	//return pe->Redraw2D (fontTex);
   } else
     return false;
 }
@@ -195,6 +210,7 @@ void InterplanetarySC::clbkMFDMode (int mfd, int mode)
 {
   switch (mfd) {
   case MFD_LEFT:
+	  systemLog.logLine("MFD_DRAW");
     oapiTriggerRedrawArea (0, 0, AID_MFD_LBUTTONS);
     oapiTriggerRedrawArea (0, 0, AID_MFD_RBUTTONS);
     break;

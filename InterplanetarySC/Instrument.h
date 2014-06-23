@@ -25,7 +25,7 @@ public:
 	virtual void AddMeshData2D (MESHHANDLE hMesh, DWORD grpidx) {}
 	virtual void AddMeshDataVC (MESHHANDLE hMesh, DWORD grpidx) {}
 	virtual void Reset2D ();
-	virtual bool Redraw2D (SURFHANDLE surf);
+	virtual bool Redraw2D (SURFHANDLE tgt,SURFHANDLE src);
 	virtual bool RedrawVC (DEVMESHHANDLE hMesh, SURFHANDLE surf);
 	virtual bool ProcessMouse2D (int event, int mx, int my);
 	virtual bool ProcessMouseVC (int event, VECTOR3 &p);

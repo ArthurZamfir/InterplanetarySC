@@ -3,7 +3,7 @@
 class MFDButtonCol: public PanelElement {
 public:
   MFDButtonCol (VESSEL3 *v, DWORD _lr);
-  bool Redraw2D (SURFHANDLE surf);
+  bool Redraw2D (SURFHANDLE tgt,SURFHANDLE src);
   bool ProcessMouse2D (int event, int mx, int my);
 
 private:

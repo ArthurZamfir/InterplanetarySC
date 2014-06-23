@@ -28,7 +28,7 @@ void PanelElement::Reset2D ()
 {
 }
 
-bool PanelElement::Redraw2D (SURFHANDLE surf)
+bool PanelElement::Redraw2D (SURFHANDLE tgt, SURFHANDLE src)
 {
 	return false;
 }

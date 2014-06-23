@@ -37,7 +37,7 @@ const int MFD_font_width[256] =  { // MFD label font: character widths
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
-const int MFD_font_ypos = 22;
+const int MFD_font_ypos = 0;
 const int MFD_font_height = 12;
 
 MFDButtonCol::MFDButtonCol (VESSEL3 *v, DWORD _lr)
@@ -49,19 +49,22 @@ MFDButtonCol::MFDButtonCol (VESSEL3 *v, DWORD _lr)
   dy   = 60;           // same here
 }
 
-bool MFDButtonCol::Redraw2D (SURFHANDLE surf)
+bool MFDButtonCol::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
 {
+	Logger  l("REDRAW.txt");
+	l.logLine("Redrw blablubb");
+
  const int btnw = 16; // button label area width
   const int btnh = MFD_font_height; // button label area height
   int btn, x, len, i, w;
   const char *label;
 
-  int  blank_btn_x = 171;
-  int blank_btn_y = 70;
+  int  blank_btn_x = 0;
+  int blank_btn_y = 12;
 
   for (btn = 0; btn < 6; btn++) {
     // blank buttons
-    oapiBlt (surf, surf, xcnt-btnw/2, ytop+dy*btn,
+    oapiBlt (tgt, src, xcnt-btnw/2, ytop+dy*btn,
       blank_btn_x, blank_btn_y, blank_btn_x+btnw, blank_btn_y+btnh);
 
     // write labels
@@ -72,7 +75,7 @@ bool MFDButtonCol::Redraw2D (SURFHANDLE surf)
       for (i = 0, x = xcnt-w/2; i < len; i++) {
         w = MFD_font_width[label[i]];
         if (w) {
-          oapiBlt (surf, surf, x, ytop+dy*btn, MFD_font_xpos[label[i]],
+          oapiBlt (tgt, src, x, ytop+dy*btn, MFD_font_xpos[label[i]],
             MFD_font_ypos, w, MFD_font_height);
             x += w;
         }
