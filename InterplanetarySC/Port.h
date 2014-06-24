@@ -1,3 +1,5 @@
+#ifndef __PORT_H_INCLUDED__
+#define __PORT_H_INCLUDED__
 /*
 Diese Port-Klasse definiert sozusagen die den Stecker/Anschluss eines Links
 an ein Subsystem. Auf diesen Port können vom angschlossenen Subsystem 
@@ -9,6 +11,7 @@ class Port
 {
 private:
 	bool attached;
+	bool active;
 	double v;
 	std::string classi;
 public:
@@ -21,6 +24,10 @@ public:
 	void addValue(double value);
 	bool isAttached();
 	void setAttached();
+	bool isActive();
+	void activate();
+	void deactivate();
 	std::string getClassifier();
 };
 
+#endif

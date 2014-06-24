@@ -4,6 +4,7 @@
 Port::Port()
 {
 	attached = false;
+	active = true;
 	v = 0.0;
 }
 
@@ -56,4 +57,19 @@ void Port::setAttached()
 std::string Port::getClassifier()
 {
 	return classi;
+}
+
+bool Port::isActive()
+{
+	return active;
+}
+
+void Port::activate()
+{
+	active = true;
+}
+
+void Port::deactivate()
+{
+	active = false;
 }

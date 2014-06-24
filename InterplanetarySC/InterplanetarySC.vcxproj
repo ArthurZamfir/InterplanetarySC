@@ -69,31 +69,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Bar.cpp" />
+    <ClCompile Include="Battery.cpp" />
     <ClCompile Include="Creator.cpp" />
+    <ClCompile Include="FuelCell.cpp" />
+    <ClCompile Include="HydrogenTank.cpp" />
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="Link.cpp" />
     <ClCompile Include="Logger.cpp" />
+    <ClCompile Include="OxygenTank.cpp" />
     <ClCompile Include="Port.cpp" />
+    <ClCompile Include="Radiator.cpp" />
     <ClCompile Include="SubSystem.cpp" />
-    <ClCompile Include="Switch.cpp" />
+    <ClCompile Include="Button.cpp" />
+    <ClCompile Include="ThermalFissionGenerator.cpp" />
     <ClCompile Include="Thruster.cpp" />
+    <ClCompile Include="WaterTank.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bar.h" />
+    <ClInclude Include="Battery.h" />
+    <ClInclude Include="FuelCell.h" />
+    <ClInclude Include="HydrogenTank.h" />
     <ClInclude Include="Instrument.h" />
     <ClInclude Include="InterplanetarySC.h" />
     <ClInclude Include="Link.h" />
     <ClInclude Include="Logger.h" />
+    <ClInclude Include="OxygenTank.h" />
     <ClInclude Include="Port.h" />
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="Radiator.h" />
     <ClInclude Include="SubSystem.h" />
-    <ClInclude Include="Switch.h" />
+    <ClInclude Include="Button.h" />
+    <ClInclude Include="SubSystemLib.h" />
+    <ClInclude Include="ThermalFissionGenerator.h" />
     <ClInclude Include="Thruster.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="InterplanetarySC.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Bitmaps\PanelTest1.bmp" />
+    <ClInclude Include="WaterTank.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

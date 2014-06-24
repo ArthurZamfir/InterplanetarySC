@@ -1,6 +1,6 @@
 #define ORBITER_MODULE
-#include "resource.h"
-#include "Switch.h"
+#include "Bar.h"
+#include "Button.h"
 #include <Windows.h>
 #include <stdio.h>
 #include "orbitersdk.h"
@@ -9,6 +9,8 @@
 #include "Logger.h"
 #include "SubSystem.h"
 #include "InterplanetarySC.h"
+#include <map>
+#include "SubSystemLib.h"
 
 
 class InterplanetarySC:public VESSEL3
@@ -19,55 +21,171 @@ public:
 	void clbkSetClassCaps(FILEHANDLE cfg);
 	bool clbkLoadPanel2D(int id,PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
 	static SURFHANDLE panel2dtex;
-	static SURFHANDLE fontTex;
+	static SURFHANDLE instrumentTex;
+	static double orbitalSpeed;
+	std::vector<SubSystem*> subsys;
+	std::vector<Link*> links;
+	double simTime;
+	double simTimeLast;
+	double *simTimePtr;
 	bool clbkPanelMouseEvent(int id,int event,int mx,int my,void *context);
 	bool clbkPanelRedrawEvent(int id,int event,SURFHANDLE surf,void *context);
 	PanelElement *pel[2];
+	PanelElement *barTest[3];
 	void clbkMFDMode (int mfd, int mode);
+	void clbkPreStep(double simt,double simdt,double mjd);	
 private:	
 	PROPELLANT_HANDLE mainTank;
 	THRUSTER_HANDLE mainThr;
 	MESHHANDLE hPanelMesh;
-	double *a;
+	void runSubSystemSimulationStep(std::vector<SubSystem*> subsys,std::vector<Link*> links);
 	void DefineMainPanel(PANELHANDLE hPanel);
 	void ScalePanel(PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
+	void createSubSystems();
 };
 
 HINSTANCE g_hInst;
 SURFHANDLE InterplanetarySC::panel2dtex = NULL;
-SURFHANDLE InterplanetarySC::fontTex = NULL;
+SURFHANDLE InterplanetarySC::instrumentTex = NULL;
+double InterplanetarySC::orbitalSpeed = 15000;
 Logger systemLog("Spacecraft_Systemlog.txt");
+Logger subSystemLog("SubSystems.txt");
 
 InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmodel)
 {
 	hPanelMesh = NULL;
 	for (int i = 0; i < 2; i++)
 		pel[i] = new MFDButtonCol (this, i);
+	simTimePtr = &simTime;
+	simTimeLast = 0;
+	createSubSystems();
 }
 
 InterplanetarySC::~InterplanetarySC()
 {
 	if(hPanelMesh) oapiDeleteMesh(hPanelMesh);
 	oapiDestroySurface(panel2dtex);
-	oapiDestroySurface(fontTex);
+	oapiDestroySurface(instrumentTex);
 	for (int i = 0; i < 2; i++)
 		delete pel[i];
+	for (int i = 0; i < 3; i++)
+		delete barTest[i];
+	delete simTimePtr;
 }
 
 DLLCLBK void InitModule (HINSTANCE hModule)
 {
 	g_hInst = hModule;
-	InterplanetarySC::panel2dtex = oapiLoadTexture("InterplanetarySC\\gimp.dds");
-	InterplanetarySC::fontTex = oapiLoadTexture("InterplanetarySC\\font.dds");
+	InterplanetarySC::panel2dtex = oapiLoadTexture("InterplanetarySC\\blank.dds");
+	InterplanetarySC::instrumentTex = oapiLoadTexture("InterplanetarySC\\instruments.dds");
 	systemLog.logLine("Initialisiert");
-	
+
 }
+
+void InterplanetarySC::createSubSystems()
+{
+	WaterTank *water1 = new WaterTank(this,"WasserTank1",simTimePtr);
+	barTest[0] = new Bar(this,water1->getName(),10,50,water1->getAmount(),5000.0);
+	OxygenTank *oxy1 = new OxygenTank(this,"SauerstoffTank1",simTimePtr);
+	barTest[1] = new Bar(this,oxy1->getName(),10,100,oxy1->getAmount(),5000.0);
+	HydrogenTank *hydro1 = new HydrogenTank(this,"WasserstoffTank1",simTimePtr);
+	barTest[2] = new Bar(this,hydro1->getName(),10,150,hydro1->getAmount(),5000.0);
+	Thruster *thrus1 = new Thruster(this,"Thruster1",simTimePtr);
+	/*Thruster *thrus2 = new Thruster("Thruster2");
+	Thruster *thrus3 = new Thruster("Thruster3");
+	Thruster *thrus4 = new Thruster("Thruster4");*/
+	FuelCell *fc1 = new FuelCell(this,"Brennstoffzelle1",simTimePtr);
+	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr);
+	/*Battery *bat2 = new Battery("Batterie2");
+	Battery *bat3 = new Battery("Batterie3");*/
+	//ThermalFissionGenerator *tfg1 = new ThermalFissionGenerator("Reaktor1");
+	Radiator *radiator1 = new Radiator(this,"Radiator1",simTimePtr);
+
+	subsys.push_back(water1);
+	subsys.push_back(oxy1);
+	subsys.push_back(hydro1);
+	subsys.push_back(thrus1);
+	/*subsys.push_back(thrus2);
+	subsys.push_back(thrus3);
+	subsys.push_back(thrus4);*/
+	subsys.push_back(fc1);
+	subsys.push_back(bat1);
+	//subsys.push_back(bat2);
+	//subsys.push_back(bat3);
+	//subsys.push_back(tfg1);
+	subsys.push_back(radiator1);
+
+	//Links instanzieren
+	Link *h2a = new Link("H2");
+	Link *h2b = new Link("H2");
+	Link *o2a = new Link("O2");
+	Link *o2b = new Link("O2");
+	Link *h2oa = new Link("H2O");
+	Link *h2ob = new Link("H2O");
+	Link *heat1 = new Link("Heat[J]");
+	Link *power1 = new Link("Energy[J]");
+
+	links.push_back(h2a);
+	links.push_back(h2b);
+	links.push_back(o2a);
+	links.push_back(o2b);
+	links.push_back(h2oa);
+	links.push_back(h2ob);
+	links.push_back(heat1);
+	links.push_back(power1);
+
+	//Ports verbinden
+	hydro1->connectPortToOutput(h2a->getPort());
+	hydro1->connectPortToOutput(h2b->getPort());
+	oxy1->connectPortToOutput(o2a->getPort());
+	oxy1->connectPortToOutput(o2b->getPort());
+	water1->connectPortToOutput(h2oa->getPort());
+	water1->connectPortToInput(h2ob->getPort());
+	thrus1->connectPortToInput(h2a->getPort());
+	thrus1->connectPortToInput(o2a->getPort());
+	fc1->connectPortToInput(h2b->getPort());
+	fc1->connectPortToInput(o2b->getPort());
+	fc1->connectPortToInput(h2oa->getPort());
+	fc1->connectPortToOutput(h2ob->getPort());
+	fc1->connectPortToOutput(power1->getPort());
+	fc1->connectPortToOutput(heat1->getPort());
+	radiator1->connectPortToInput(heat1->getPort());
+	bat1->connectPortToInput(power1->getPort());
+}
+
 
 DLLCLBK void ExitModule (HINSTANCE hDLL)
 {
 	systemLog.logLine("Exit");
 }
 
+void InterplanetarySC::clbkPreStep(double simt,double simdt,double mjd)
+{
+	simTime = simdt;
+	runSubSystemSimulationStep(subsys,links);
+	//orbitalSpeed = orbitalSpeed - simt;
+}
+
+void InterplanetarySC::runSubSystemSimulationStep(std::vector<SubSystem*> subsys,std::vector<Link*> links)
+{
+	std::vector<SubSystem*>::iterator ssit;
+	std::vector<Link*>::iterator linkit;
+
+		for (ssit = subsys.begin();ssit!=subsys.end();++ssit)
+		{
+			(*ssit)->calculateStep();
+		}
+
+		for (linkit = links.begin();linkit!=links.end();++linkit)
+		{
+			(*linkit)->transfer();
+		}
+
+		for (ssit = subsys.begin();ssit!=subsys.end();++ssit)
+	{
+		subSystemLog.logLine((*ssit)->report());
+	}
+}
 bool InterplanetarySC::clbkLoadPanel2D(int id,PANELHANDLE hPanel,
 									   DWORD viewW, DWORD viewH)
 {
@@ -90,7 +208,7 @@ bool InterplanetarySC::clbkLoadPanel2D(int id,PANELHANDLE hPanel,
 void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 {
 	systemLog.logLine("DefineMainPanel");
-	static DWORD panelW = 1280;
+	static DWORD panelW = 2048;
 	static DWORD panelH = 1024;
 	float fpanelW = (float)panelW;
 	float fpanbelH = (float)panelH;
@@ -121,10 +239,10 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 	//MFD
 
 	static NTVERTEX VTX_MFD[4] = {
-    {214, 32,0,  0,0,0,  0,0},
-    {514, 32,0,  0,0,0,  1,0},
-    {214,332,0,  0,0,0,  0,1},
-    {514,332,0,  0,0,0,  1,1}
+    {212, 513,0,  0,0,0,  0,0},
+    {512, 513,0,  0,0,0,  1,0},
+    {212,813,0,  0,0,0,  0,1},
+    {512,813,0,  0,0,0,  1,1}
   };
   static WORD IDX_MFD[6] = {
     0,1,2,
@@ -144,20 +262,30 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 
    int x0 = 172;
    int x1 = 198;
-   int y0 = 80;
-   int y1 = 776-481;
+   int y0 = 552;
+   int y1 = 776;
 
    int x2 = 520;
    int x3 = 546;
 
-  RegisterPanelArea (hPanel, AID_MFD_LBUTTONS, _R(x0,y0,x1,y1),
-    PANEL_REDRAW_USER,
+  //RegisterPanelArea (hPanel, AID_MFD_LBUTTONS, _R(x0,y0,x1,y1),
+  //  PANEL_REDRAW_USER,
+  //  PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
+  //  panel2dtex, pel[0]);
+  //RegisterPanelArea (hPanel, AID_MFD_RBUTTONS, _R(x2,y0,x3,y1),
+  //  PANEL_REDRAW_USER,
+  //  PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
+  //  panel2dtex, pel[1]);
+
+  //Bar Test
+   for (int i = 0; i < 3; i++)
+   {
+	RegisterPanelArea(hPanel, AID_BAR_BUTTON, _R(0,0,1,1),
+		PANEL_REDRAW_ALWAYS,
     PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
-    panel2dtex, pel[0]);
-  RegisterPanelArea (hPanel, AID_MFD_RBUTTONS, _R(x2,y0,x3,y1),
-    PANEL_REDRAW_USER,
-    PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
-    panel2dtex, pel[1]);
+	panel2dtex, barTest[i]);
+   }
+  
 
  //   RegisterPanelArea (hPanel, AID_MFD_LBUTTONS, _R(x0,y0,x1,y1),
  //   PANEL_REDRAW_USER,
@@ -175,7 +303,7 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 void InterplanetarySC::ScalePanel(PANELHANDLE hPanel, DWORD viewW, DWORD viewH)
 {
 	systemLog.logLine("ScalePanel");
-	double defscale = (double)viewW/1280.0;
+	double defscale = (double)viewW/2048;
 	double magscale = max (defscale,1.0);
 	SetPanelScaling(hPanel,defscale,magscale);
 }
@@ -200,10 +328,19 @@ bool InterplanetarySC::clbkPanelRedrawEvent(int id,int event,SURFHANDLE surf,voi
   if (context) {
 	  systemLog.logLine("Redraw");
     PanelElement *pe = (PanelElement*)context;
-	return pe->Redraw2D (surf,surf);
+	return pe->Redraw2D (surf,instrumentTex);
 	//return pe->Redraw2D (fontTex);
   } else
     return false;
+
+	//if(oapiGetSysTime()-1>time)
+	//{
+	//	time = oapiGetSysTime();
+	//	PanelElement *pe = (PanelElement*)context;
+	//	return pe->Redraw2D (surf,instrumentTex);
+	//}
+	//return false;
+
 }
 
 void InterplanetarySC::clbkMFDMode (int mfd, int mode)

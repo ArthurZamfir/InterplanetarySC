@@ -1,4 +1,4 @@
-#include "Switch.h"
+#include "Button.h"
 #include "Logger.h"
 
 const int MFD_font_xpos[256]= { // MFD label font: character x-offsets
@@ -38,15 +38,15 @@ const int MFD_font_width[256] =  { // MFD label font: character widths
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 };
 const int MFD_font_ypos = 0;
-const int MFD_font_height = 12;
+const int MFD_font_height = 15;
 
 MFDButtonCol::MFDButtonCol (VESSEL3 *v, DWORD _lr)
   : PanelElement (v)
 {
   lr = _lr;
-  xcnt = 214+150 + lr*360;  // adjust according to geometry
-  ytop = 32;          // same here
-  dy   = 60;           // same here
+  xcnt = 184 + lr*347;  // adjust according to geometry
+  ytop = 556;          // same here
+  dy   = 40;           // same here
 }
 
 bool MFDButtonCol::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
@@ -54,18 +54,18 @@ bool MFDButtonCol::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
 	Logger  l("REDRAW.txt");
 	l.logLine("Redrw blablubb");
 
- const int btnw = 16; // button label area width
+ const int btnw = 22; // button label area width
   const int btnh = MFD_font_height; // button label area height
   int btn, x, len, i, w;
   const char *label;
 
   int  blank_btn_x = 0;
-  int blank_btn_y = 12;
+  int blank_btn_y = 0;
 
   for (btn = 0; btn < 6; btn++) {
     // blank buttons
-    oapiBlt (tgt, src, xcnt-btnw/2, ytop+dy*btn,
-      blank_btn_x, blank_btn_y, blank_btn_x+btnw, blank_btn_y+btnh);
+    //oapiBlt (tgt, src, xcnt-btnw/2, ytop+dy*btn,
+    //  blank_btn_x, blank_btn_y, blank_btn_x+btnw, blank_btn_y+btnh);
 
     // write labels
     if (label = oapiMFDButtonLabel (MFD_LEFT, btn+lr*6)) {
@@ -91,7 +91,7 @@ bool MFDButtonCol::ProcessMouse2D (int event, int mx, int my)
 	std::string s = std::to_string(event)  +" - " + std::to_string(mx)  +" - "+ std::to_string(my);
 	l.logLine(std::to_string(event));
 
-  if (my % dy < 12) {
+  if (my % dy < 15) {
     int btn = my/dy + lr*6;
     oapiProcessMFDButton (MFD_LEFT, btn, event);
     return true;

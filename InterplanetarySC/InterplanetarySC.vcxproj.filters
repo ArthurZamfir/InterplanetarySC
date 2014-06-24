@@ -13,76 +13,156 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="NewFilter1">
-      <UniqueIdentifier>{30b4a99b-f1b2-47e9-8d6a-3fa7973ddb59}</UniqueIdentifier>
+    <Filter Include="Header Files\SubSystems">
+      <UniqueIdentifier>{878e1d35-055b-48f0-b54b-8cd8991e7e86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\AOCS">
+    <Filter Include="Source Files\SubSystem">
+      <UniqueIdentifier>{04326cf8-624c-4a9e-b107-7eabe485dc7b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubSystem\AOCS">
       <UniqueIdentifier>{8942758f-0dbb-4582-bb43-cb0f454cc7cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems\AOCS">
+      <UniqueIdentifier>{f128e719-f28b-4f5f-817b-956ed3eb3d36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems\PSS">
+      <UniqueIdentifier>{19659590-2210-4f3c-95a9-82dc63148aa2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems\ECLSS">
+      <UniqueIdentifier>{e9413c9c-a023-4234-9d67-f8d32ba36e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems\OBDH">
+      <UniqueIdentifier>{608d1ff9-e755-490c-99c5-7e5c7bec2c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems\TCS">
+      <UniqueIdentifier>{02160e6c-11f8-4b97-b303-45989b6134dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems\TTC">
+      <UniqueIdentifier>{d380c186-8762-429d-9325-342d3f9caccf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SubSystems\Misc">
+      <UniqueIdentifier>{e715075a-e333-49b7-b81a-e0c8e22e8856}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubSystem\ECLSS">
+      <UniqueIdentifier>{48978e77-874c-40fd-9aee-bce0374c9aff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubSystem\Misc">
+      <UniqueIdentifier>{8f818299-6e83-43fa-9706-57fb8e7090dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubSystem\TTC">
+      <UniqueIdentifier>{e459a1f1-61e8-4dd1-bbde-43cb2269e228}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubSystem\TCS">
+      <UniqueIdentifier>{4e75e93d-856f-45d5-ab7d-b86c3645961d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubSystem\OBDH">
+      <UniqueIdentifier>{0b1108a8-c3a8-4376-96bd-4e95c7364af7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SubSystem\PSS">
+      <UniqueIdentifier>{102494e3-23f6-4781-95e1-f001f0bd4e04}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SubSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Thruster.cpp">
-      <Filter>Source Files\AOCS</Filter>
-    </ClCompile>
-    <ClCompile Include="Link.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Port.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Switch.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\SubSystem\AOCS</Filter>
     </ClCompile>
     <ClCompile Include="Instrument.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Bar.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Link.cpp">
+      <Filter>Source Files\SubSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Port.cpp">
+      <Filter>Source Files\SubSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SubSystem.cpp">
+      <Filter>Source Files\SubSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="OxygenTank.cpp">
+      <Filter>Source Files\SubSystem\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Radiator.cpp">
+      <Filter>Source Files\SubSystem\TCS</Filter>
+    </ClCompile>
+    <ClCompile Include="WaterTank.cpp">
+      <Filter>Source Files\SubSystem\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="HydrogenTank.cpp">
+      <Filter>Source Files\SubSystem\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="Battery.cpp">
+      <Filter>Source Files\SubSystem\PSS</Filter>
+    </ClCompile>
+    <ClCompile Include="FuelCell.cpp">
+      <Filter>Source Files\SubSystem\PSS</Filter>
+    </ClCompile>
+    <ClCompile Include="ThermalFissionGenerator.cpp">
+      <Filter>Source Files\SubSystem\PSS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="SubSystem.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Thruster.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Link.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Port.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InterplanetarySC.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="resource.h">
+    <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Instrument.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Switch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="InterplanetarySC.rc">
-      <Filter>Resource Files</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Bitmaps\PanelTest1.bmp">
-      <Filter>Resource Files</Filter>
-    </Image>
+    <ClInclude Include="InterplanetarySC.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Bar.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Link.h">
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Port.h">
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSystem.h">
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Thruster.h">
+      <Filter>Header Files\SubSystems\AOCS</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSystemLib.h">
+      <Filter>Header Files\SubSystems</Filter>
+    </ClInclude>
+    <ClInclude Include="Battery.h">
+      <Filter>Header Files\SubSystems\PSS</Filter>
+    </ClInclude>
+    <ClInclude Include="FuelCell.h">
+      <Filter>Header Files\SubSystems\PSS</Filter>
+    </ClInclude>
+    <ClInclude Include="ThermalFissionGenerator.h">
+      <Filter>Header Files\SubSystems\PSS</Filter>
+    </ClInclude>
+    <ClInclude Include="HydrogenTank.h">
+      <Filter>Header Files\SubSystems\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="OxygenTank.h">
+      <Filter>Header Files\SubSystems\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Radiator.h">
+      <Filter>Header Files\SubSystems\TCS</Filter>
+    </ClInclude>
+    <ClInclude Include="WaterTank.h">
+      <Filter>Header Files\SubSystems\Misc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
