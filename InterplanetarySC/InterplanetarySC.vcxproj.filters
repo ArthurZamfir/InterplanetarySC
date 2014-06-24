@@ -61,6 +61,18 @@
     <Filter Include="Source Files\SubSystem\PSS">
       <UniqueIdentifier>{102494e3-23f6-4781-95e1-f001f0bd4e04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\External">
+      <UniqueIdentifier>{60218a39-d7a3-45dd-9299-f6cfcdd5f1ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\External">
+      <UniqueIdentifier>{e401aca3-c090-4d99-826d-045912d603a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\MyInstruments">
+      <UniqueIdentifier>{14eeb6ed-ddab-4432-9497-7745a2e5ba84}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\MyInstruments">
+      <UniqueIdentifier>{583c5575-41f7-46a3-bff0-6c586dd8aaf2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Creator.cpp">
@@ -71,15 +83,6 @@
     </ClCompile>
     <ClCompile Include="Thruster.cpp">
       <Filter>Source Files\SubSystem\AOCS</Filter>
-    </ClCompile>
-    <ClCompile Include="Instrument.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bar.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Link.cpp">
       <Filter>Source Files\SubSystem</Filter>
@@ -111,21 +114,30 @@
     <ClCompile Include="ThermalFissionGenerator.cpp">
       <Filter>Source Files\SubSystem\PSS</Filter>
     </ClCompile>
+    <ClCompile Include="Instrument.cpp">
+      <Filter>Source Files\External</Filter>
+    </ClCompile>
+    <ClCompile Include="Bar.cpp">
+      <Filter>Source Files\MyInstruments</Filter>
+    </ClCompile>
+    <ClCompile Include="Button.cpp">
+      <Filter>Source Files\MyInstruments</Filter>
+    </ClCompile>
+    <ClCompile Include="Switch.cpp">
+      <Filter>Source Files\MyInstruments</Filter>
+    </ClCompile>
+    <ClCompile Include="SubSystemInstrument.cpp">
+      <Filter>Source Files\MyInstruments</Filter>
+    </ClCompile>
+    <ClCompile Include="StatusLight.cpp">
+      <Filter>Source Files\MyInstruments</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Instrument.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="InterplanetarySC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bar.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Link.h">
@@ -163,6 +175,27 @@
     </ClInclude>
     <ClInclude Include="WaterTank.h">
       <Filter>Header Files\SubSystems\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="Instrument.h">
+      <Filter>Header Files\External</Filter>
+    </ClInclude>
+    <ClInclude Include="Bar.h">
+      <Filter>Header Files\MyInstruments</Filter>
+    </ClInclude>
+    <ClInclude Include="Button.h">
+      <Filter>Header Files\MyInstruments</Filter>
+    </ClInclude>
+    <ClInclude Include="Switch.h">
+      <Filter>Header Files\MyInstruments</Filter>
+    </ClInclude>
+    <ClInclude Include="SubSystemInstrument.h">
+      <Filter>Header Files\MyInstruments</Filter>
+    </ClInclude>
+    <ClInclude Include="StatusLight.h">
+      <Filter>Header Files\MyInstruments</Filter>
+    </ClInclude>
+    <ClInclude Include="TexturePositions.h">
+      <Filter>Header Files\MyInstruments</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -45,14 +45,13 @@ protected:
 	//std::map<std::string,double> output;
 	//std::map<SubSystem*,std::vector<std::string>> inputSystems;
 	//std::map<SubSystem*,std::vector<std::string>> outputSystems;
-	std::map<std::string,double> attributes;
+	std::map<std::string,double*> attributes;
+	std::map<std::string,double> maxAttributes;
 	OPERATION_MODE operationMode;
 
 	//Hier sollen die input-map und output-map erzeugt werden.
 	//Da diese je nach Subsystem unterschiedlich sind werden sie in den
 	//abgeleiteten Klassen definiert.
-	virtual void initializeSystem();
-	virtual void writeAttributesToMap();
 	void activateAllPorts();
 	void deactivateAllPorts();
 	std::vector<Port*> collectAllActiveSubSystemsWithClassifier(std::multimap<std::string,Port*>,std::string);
@@ -70,10 +69,11 @@ public:
 	std::string getStatusAsString();
 	void connectPortToInput(Port*);
 	void connectPortToOutput(Port*);
+	std::map<std::string,double*> getAllAttributes();
 	/*
 	In dieser Funktion werden auf Basis der Attribute und der 
 	*/
-	virtual void calculateStep();
+	virtual void calculateStep(){}
 	/*
 	Wenn sich die Werte der inputs und outputs dieses Subsystems durch die Funktion
 	calculateStep() geändert haben,dann sollen die neuen Werte den angeschlossenen Subsystemen

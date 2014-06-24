@@ -1,3 +1,4 @@
+#pragma once
 #include "Instrument.h"
 
 class MFDButtonCol: public PanelElement {

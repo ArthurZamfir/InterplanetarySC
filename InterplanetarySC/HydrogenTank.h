@@ -5,14 +5,11 @@
 class HydrogenTank: public SubSystem
 {
 private:
-	double amount;
-	double *amountptr;
+	double val;
+	double maxVal;
 public:
-	HydrogenTank(VESSEL3 *vessel,std::string name,double *time):SubSystem(vessel,name,time){initializeSystem();};
-	void initializeSystem();
+	HydrogenTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount);
 	void calculateStep();
-	void writeAttributesToMap();
-	double* getAmount();
 };
 
 #endif

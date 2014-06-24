@@ -1,10 +1,12 @@
 #include "OxygenTank.h"
 
 
-void OxygenTank::initializeSystem()
+OxygenTank::OxygenTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount):SubSystem(vessel,name,time)
 {
-	amount = 5000.0;
-	amountptr = &amount;
+	val = amount;
+	maxVal = maxAmount;
+	attributes["Amount[kg]"] = &val;
+	maxAttributes["Amount[kg]"] = maxAmount;
 }
 
 void OxygenTank::calculateStep()
@@ -16,20 +18,10 @@ void OxygenTank::calculateStep()
 
 	if(operationMode == ACTIVE)
 	{
-		amount = amount + in - out;
+		val = val + in - out;
 	}
 	if(operationMode == PASSIVE)
 	{
 		resetAllPortValues();
 	}
-}
-
-void OxygenTank::writeAttributesToMap()
-{
-	attributes["Amount[kg]"] = amount;
-}
-
-double* OxygenTank::getAmount()
-{
-	return amountptr;
 }

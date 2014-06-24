@@ -62,16 +62,15 @@ default:			break;
 
 std::string SubSystem::report()
 {
-	writeAttributesToMap();
 	std::string s;
 	s.append("==== " + sName + " ====\n");
 	s.append("Status:\t");
 	s.append(SubSystem::getStatusAsString());
 	s.append("\n");
 
-	for (std::map<std::string,double>::iterator it = attributes.begin();it!=attributes.end();++it)
+	for (std::map<std::string,double*>::iterator it = attributes.begin();it!=attributes.end();++it)
 	{
-		s.append(it->first).append("\t\t").append(std::to_string(it->second)).append("\n");
+		s.append(it->first).append("\t\t").append(std::to_string(*(it->second))).append("\n");
 	}
 
 	return s;
@@ -105,6 +104,12 @@ void SubSystem::connectPortToOutput(Port* port)
 	port->activate();
 }
 
+std::map<std::string,double*> SubSystem::getAllAttributes()
+{
+	return attributes;
+}
+
+
 void SubSystem::activateAllPorts()
 {
 	std::multimap<std::string,Port*>::iterator pos;
@@ -133,18 +138,6 @@ void SubSystem::deactivateAllPorts()
 	{
 		pos->second->deactivate();
 	}
-}
-
-void SubSystem::initializeSystem()
-{
-}
-
-void SubSystem::calculateStep()
-{
-}
-
-void SubSystem::writeAttributesToMap()
-{
 }
 
 std::vector<Port*> SubSystem::collectAllActiveSubSystemsWithClassifier(std::multimap<std::string,Port*> map,std::string classifier)

@@ -68,7 +68,8 @@ InterplanetarySC::~InterplanetarySC()
 	oapiDestroySurface(instrumentTex);
 	for (int i = 0; i < 2; i++)
 		delete pel[i];
-	for (int i = 0; i < 3; i++)
+	int barCount = sizeof(barTest)/sizeof(barTest[0]);
+	for (int i = 0; i < barCount; i++)
 		delete barTest[i];
 	delete simTimePtr;
 }
@@ -163,7 +164,7 @@ void InterplanetarySC::clbkPreStep(double simt,double simdt,double mjd)
 {
 	simTime = simdt;
 	runSubSystemSimulationStep(subsys,links);
-	//orbitalSpeed = orbitalSpeed - simt;
+	orbitalSpeed = orbitalSpeed - simt;
 }
 
 void InterplanetarySC::runSubSystemSimulationStep(std::vector<SubSystem*> subsys,std::vector<Link*> links)
@@ -190,7 +191,7 @@ bool InterplanetarySC::clbkLoadPanel2D(int id,PANELHANDLE hPanel,
 									   DWORD viewW, DWORD viewH)
 {
 	systemLog.logLine("Load2DPanel");
-	oapiSetHUDMode(HUD_ORBIT);
+	
 	switch(id)
 	{
 	case 0:
@@ -199,7 +200,7 @@ bool InterplanetarySC::clbkLoadPanel2D(int id,PANELHANDLE hPanel,
 		oapiSetHUDMode(HUD_NONE);
 		return true;
 	default:
-		
+		oapiSetHUDMode(HUD_ORBIT);
 		return false;
 	}
 
@@ -236,65 +237,15 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 	SetPanelBackground(hPanel,&panel2dtex,1,hPanelMesh,panelW,panelH,0,
 		PANEL_ATTACH_BOTTOM | PANEL_MOVEOUT_BOTTOM);
 
-	//MFD
-
-	static NTVERTEX VTX_MFD[4] = {
-    {212, 513,0,  0,0,0,  0,0},
-    {512, 513,0,  0,0,0,  1,0},
-    {212,813,0,  0,0,0,  0,1},
-    {512,813,0,  0,0,0,  1,1}
-  };
-  static WORD IDX_MFD[6] = {
-    0,1,2,
-    3,2,1
-  };
-  MESHGROUP grp_mfd = {VTX_MFD, IDX_MFD, 4, 6, 0, 0, 0, 0, 0};
-  oapiAddMeshGroup (hPanelMesh, &grp_mfd);
-  RegisterPanelMFDGeometry (hPanel, MFD_LEFT, 0, 1);
-
-   //int x0 = 40;
-   //int x1 = 56;
-   //int y0 = 300;
-   //int y1 = 300+5*38;
-
-   //int x2 = 40 + 380;
-   //int x3 = 40+380+16;
-
-   int x0 = 172;
-   int x1 = 198;
-   int y0 = 552;
-   int y1 = 776;
-
-   int x2 = 520;
-   int x3 = 546;
-
-  //RegisterPanelArea (hPanel, AID_MFD_LBUTTONS, _R(x0,y0,x1,y1),
-  //  PANEL_REDRAW_USER,
-  //  PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
-  //  panel2dtex, pel[0]);
-  //RegisterPanelArea (hPanel, AID_MFD_RBUTTONS, _R(x2,y0,x3,y1),
-  //  PANEL_REDRAW_USER,
-  //  PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
-  //  panel2dtex, pel[1]);
-
   //Bar Test
-   for (int i = 0; i < 3; i++)
+	int barCount = sizeof(barTest)/sizeof(barTest[0]);
+   for (int i = 0; i < barCount; i++)
    {
 	RegisterPanelArea(hPanel, AID_BAR_BUTTON, _R(0,0,1,1),
 		PANEL_REDRAW_ALWAYS,
     PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
 	panel2dtex, barTest[i]);
    }
-  
-
- //   RegisterPanelArea (hPanel, AID_MFD_LBUTTONS, _R(x0,y0,x1,y1),
- //   PANEL_REDRAW_USER,
- //   PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
-	//fontTex, pel[0]);
- // RegisterPanelArea (hPanel, AID_MFD_RBUTTONS, _R(x2,y0,x3,y1),
- //   PANEL_REDRAW_USER,
- //   PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
- //   fontTex, pel[1]);
 
 }
 

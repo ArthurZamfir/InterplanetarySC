@@ -1,10 +1,13 @@
 #include "Battery.h"
 
 
-void Battery::initializeSystem()
+Battery::Battery(VESSEL3 *vessel,std::string name,double *time,double startCharge,
+				 double maxCharge):SubSystem(vessel,name,time)
 {
-	charge = 0.0;
-	maxCharge = 5001.0;
+	c = startCharge;
+	mc = maxCharge;
+	attributes["Energy[J]"] = &c;
+	maxAttributes["Energy[J]"] = maxCharge;
 }
 
 void Battery::calculateStep()
@@ -16,12 +19,12 @@ void Battery::calculateStep()
 
 	if(operationMode == ACTIVE)
 	{
-		if(charge<maxCharge)
+		if(c<mc)
 		{
-			charge = charge + in;
+			c = c + in;
 			writePortValuesEqual(input,1.0);
 		}
-		if(charge>=maxCharge)
+		if(c>=mc)
 		{
 			writePortValuesEqual(input,0.0);
 		}
@@ -32,9 +35,4 @@ void Battery::calculateStep()
 		writePortValuesEqual(output,0.0);
 	}
 	
-}
-
-void Battery::writeAttributesToMap()
-{
-	attributes["Energy[J]"] = charge;
 }

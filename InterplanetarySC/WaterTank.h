@@ -6,14 +6,11 @@ class WaterTank: public SubSystem
 {
 	
 private:
-	double amount;
-	double *amountptr;
+	double val;
+	double maxVal;
 public:
-	WaterTank(VESSEL3 *vessel,std::string name,double *time):SubSystem(vessel,name,time){initializeSystem();};
-	void initializeSystem();
+	WaterTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount);
 	void calculateStep();
-	void writeAttributesToMap();
-	double* getAmount();
 };
 
 #endif

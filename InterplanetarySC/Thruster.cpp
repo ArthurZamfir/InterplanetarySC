@@ -1,10 +1,17 @@
 #include "Thruster.h"
 
-void Thruster::initializeSystem()
+Thruster::Thruster(VESSEL3 *vessel,std::string name,double *time,
+				   double thrust,double impulse,std::string thrGroup)
+	:SubSystem(vessel,name,time)
 {
-	thrust = 8000.0;
-	isp = 4000.0;
-	group = "MAIN";
+	thr = thrust;
+	isp = impulse;
+	group = thrGroup;
+	attributes["Thrust[N]"] =&thr;
+	attributes["Isp[m/s]"]=&isp;
+
+	maxAttributes["Thrust[N]"] = thrust;
+	maxAttributes["Isp[m/s]"] = impulse;
 }
 
 void Thruster::calculateStep()
@@ -16,7 +23,7 @@ void Thruster::calculateStep()
 	double hydro = getPortValuesSum(hydrogenTanks);
 	double oxy = getPortValuesSum(oxygenTanks);
 
-	double totalMass = thrust*(*simTime)/isp;;
+	double totalMass = thr*(*simTime)/isp;;
 
 	if(operationMode == ACTIVE)
 	{
@@ -41,12 +48,6 @@ void Thruster::calculateStep()
 	}
 
 		
-}
-
-void Thruster::writeAttributesToMap()
-{
-	attributes["Thrust[N]"] =thrust;
-	attributes["Isp[m/s]"]=isp;
 }
 
 

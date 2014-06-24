@@ -1,10 +1,20 @@
 #include "FuelCell.h"
 
-void FuelCell::initializeSystem()
+FuelCell::FuelCell(VESSEL3 *vessel,std::string name,double *time,double efficiency,
+				   double coolingWater,double maxPower):SubSystem(vessel,name,time)
 {
-	efficiency = 0.4;
-	coolingWaterPerSecond = 4.0;
-	currentPower = 0.0;
+	eff = efficiency;
+	cool = coolingWater;
+	cPower = 0.0;
+	mPower = maxPower;
+
+	attributes["Efficiency[-]"] = &eff;
+	attributes["Cooling Water [kg]"] = &cool;
+	attributes["Power[W]"]=&cPower;
+
+	maxAttributes["Efficiency[-]"] = efficiency;
+	maxAttributes["Cooling Water [kg]"] = coolingWater;
+	maxAttributes["Power[W]"]= maxPower;
 }
 
 void FuelCell::calculateStep()
@@ -22,8 +32,8 @@ void FuelCell::calculateStep()
 		double waterIntake = 4.0*(*simTime);
 		//Die benötigte Energie wird anhand der angschlossenen Verbraucher ermittelt
 		double requiredEnergy = getPortValuesSum(activeConsumers);
-		double generatedEnergy = requiredEnergy / efficiency;
-		currentPower = generatedEnergy/(*simTime);
+		double generatedEnergy = requiredEnergy / eff;
+		cPower = generatedEnergy/(*simTime);
 		//Erfundene Formel für den Massenstrom im verhältnis zur Energie
 		double coefficient = 0.01;
 		double totalMass = generatedEnergy * coefficient;
@@ -49,18 +59,9 @@ void FuelCell::calculateStep()
 		writePortValuesEqual(hydrogenTanksIn,0.0);
 		writePortValuesEqual(oxygenTanksIn,0.0);
 		writePortValuesEqual(radiators,0.0);
-		currentPower = 0.0;
-		coolingWaterPerSecond = 0.0;
+		cPower = 0.0;
+		cool = 0.0;
 	}
 
 
 }
-
-void FuelCell::writeAttributesToMap()
-{
-	attributes["Efficiency[-]"] = efficiency;
-	attributes["Cooling Water [kg]"] = coolingWaterPerSecond;
-	attributes["Power[W]"]=currentPower;
-}
-
-

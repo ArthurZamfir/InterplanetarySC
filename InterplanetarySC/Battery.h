@@ -5,13 +5,11 @@
 class Battery: public SubSystem
 {
 private:
-	double charge;
-	double maxCharge;
+	double c;
+	double mc;
 public:
-	Battery(VESSEL3 *vessel,std::string name,double *time):SubSystem(vessel,name,time){initializeSystem();};
-	void initializeSystem();
+	Battery(VESSEL3 *vessel,std::string name,double *time,double startCharge,double maxCharge);
 	void calculateStep();
-	void writeAttributesToMap();
 };
 
 #endif

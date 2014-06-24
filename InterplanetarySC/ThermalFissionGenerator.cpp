@@ -1,10 +1,24 @@
 #include "ThermalFissionGenerator.h"
 
 
-void ThermalFissionGenerator::initializeSystem()
+ThermalFissionGenerator::ThermalFissionGenerator(VESSEL3 *vessel,std::string name,double *time,
+		double temperature,double maxTemperature,double startPower,double maxPower,
+		double startRadiation,double maxRadiation):SubSystem(vessel,name,time)
 {
-	temp = 300.0;
-	power = 5000000.0;
+	temp = temperature;
+	mTemp = maxTemperature;
+	power = startPower;
+	mPower = maxPower;
+	rad = startRadiation;
+	mRad = maxRadiation;
+
+	attributes["Temp[K]"] = &temp;
+	attributes["Power[W]"] = &power;
+	attributes["Radiation[Sv]"] = &rad;
+
+	maxAttributes["Temp[K]"] = maxTemperature;
+	maxAttributes["Power[W]"] = maxPower;
+	maxAttributes["Radiation[Sv]"] = maxRadiation;
 }
 
 void ThermalFissionGenerator::calculateStep()
@@ -30,10 +44,4 @@ void ThermalFissionGenerator::calculateStep()
 		resetAllPortValues();
 	}
 	
-}
-
-void ThermalFissionGenerator::writeAttributesToMap()
-{
-	attributes["Temp[K]"] = temp;
-	attributes["Power[W]"] = power;
 }

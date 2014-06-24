@@ -5,14 +5,13 @@
 class FuelCell: public SubSystem
 {
 private:
-	double efficiency;
-	double coolingWaterPerSecond;
-	double currentPower;
+	double eff;
+	double cool;
+	double cPower;
+	double mPower;
 public:
-	FuelCell(VESSEL3 *vessel,std::string name,double *time):SubSystem(vessel,name,time){initializeSystem();};
-	void initializeSystem();
+	FuelCell(VESSEL3 *vessel,std::string name,double *time,double efficiency,double coolingWater,double maxPower);
 	void calculateStep();
-	void writeAttributesToMap();
 };
 
 #endif

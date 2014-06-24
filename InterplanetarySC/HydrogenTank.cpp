@@ -1,10 +1,12 @@
 #include "HydrogenTank.h"
 
 
-void HydrogenTank::initializeSystem()
+HydrogenTank::HydrogenTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount):SubSystem(vessel,name,time)
 {
-	amount = 5000.0;
-	amountptr = &amount;
+	val = amount;
+	maxVal = maxAmount;
+	attributes["Amount[kg]"] = &val;
+	maxAttributes["Amount[kg]"] = maxAmount;
 }
 
 void HydrogenTank::calculateStep()
@@ -16,22 +18,11 @@ void HydrogenTank::calculateStep()
 
 	if(operationMode == ACTIVE)
 	{
-		amount = amount + in - out;
+		val = val + in - out;
 	}
 	if(operationMode == PASSIVE)
 	{
 		resetAllPortValues();
 	}
 	
-}
-
-void HydrogenTank::writeAttributesToMap()
-{
-	//attributes.insert(std::pair<std::string,double>("Amount[kg]",amount));
-	attributes["Amount[kg]"] = amount;
-}
-
-double* HydrogenTank::getAmount()
-{
-	return amountptr;
 }

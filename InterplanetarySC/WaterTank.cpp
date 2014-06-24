@@ -1,9 +1,11 @@
 #include "WaterTank.h"
 
-void WaterTank::initializeSystem()
+WaterTank::WaterTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount):SubSystem(vessel,name,time)
 {
-	amount = 5000.0;
-	amountptr = &amount;
+	val = amount;
+	maxVal = maxAmount;
+	attributes["Amount[kg]"] = &val;
+	maxAttributes["Amount[kg]"] = maxAmount;
 }
 
 void WaterTank::calculateStep()
@@ -15,22 +17,10 @@ void WaterTank::calculateStep()
 
 	if(operationMode == ACTIVE)
 	{
-		amount = amount + in - out;
+		val = val + in - out;
 	}
 	if(operationMode == PASSIVE)
 	{
 		resetAllPortValues();
 	}
-
-	
-}
-
-void WaterTank::writeAttributesToMap()
-{
-	attributes["Amount[kg]"] = amount;
-}
-
-double* WaterTank::getAmount()
-{
-	return amountptr;
 }

@@ -1,8 +1,12 @@
 #include "Radiator.h"
 
-void Radiator::initializeSystem()
+Radiator::Radiator(VESSEL3 *vessel,std::string name,double *time,double startHeat,double maxHeat):SubSystem(vessel,name,time)
 {
-	heat = 0.0;
+	heat = startHeat;
+	mHeat = maxHeat;
+	attributes["Heat[J]"] = &heat;
+	maxAttributes["Heat[J]"] = mHeat;
+
 }
 
 void Radiator::calculateStep()
@@ -15,11 +19,6 @@ void Radiator::calculateStep()
 		heat = heat + in - out;
 		resetAllPortValues();
 	}
-}
-
-void Radiator::writeAttributesToMap()
-{
-	attributes["Heat[J]"] = heat;
 }
 
 
