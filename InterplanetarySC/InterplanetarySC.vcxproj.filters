@@ -120,16 +120,13 @@
     <ClCompile Include="Bar.cpp">
       <Filter>Source Files\MyInstruments</Filter>
     </ClCompile>
-    <ClCompile Include="Button.cpp">
-      <Filter>Source Files\MyInstruments</Filter>
-    </ClCompile>
-    <ClCompile Include="Switch.cpp">
-      <Filter>Source Files\MyInstruments</Filter>
-    </ClCompile>
     <ClCompile Include="SubSystemInstrument.cpp">
       <Filter>Source Files\MyInstruments</Filter>
     </ClCompile>
     <ClCompile Include="StatusLight.cpp">
+      <Filter>Source Files\MyInstruments</Filter>
+    </ClCompile>
+    <ClCompile Include="OperationSwitch.cpp">
       <Filter>Source Files\MyInstruments</Filter>
     </ClCompile>
   </ItemGroup>
@@ -182,12 +179,6 @@
     <ClInclude Include="Bar.h">
       <Filter>Header Files\MyInstruments</Filter>
     </ClInclude>
-    <ClInclude Include="Button.h">
-      <Filter>Header Files\MyInstruments</Filter>
-    </ClInclude>
-    <ClInclude Include="Switch.h">
-      <Filter>Header Files\MyInstruments</Filter>
-    </ClInclude>
     <ClInclude Include="SubSystemInstrument.h">
       <Filter>Header Files\MyInstruments</Filter>
     </ClInclude>
@@ -195,6 +186,9 @@
       <Filter>Header Files\MyInstruments</Filter>
     </ClInclude>
     <ClInclude Include="TexturePositions.h">
+      <Filter>Header Files\MyInstruments</Filter>
+    </ClInclude>
+    <ClInclude Include="OperationSwitch.h">
       <Filter>Header Files\MyInstruments</Filter>
     </ClInclude>
   </ItemGroup>

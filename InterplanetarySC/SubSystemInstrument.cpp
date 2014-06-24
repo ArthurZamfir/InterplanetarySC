@@ -9,7 +9,7 @@ SubSystemInstrument::SubSystemInstrument (VESSEL3 *v,SubSystem *subSystem,DWORD 
 	ss = subSystem;
 	xPos = x;
 	yPos = y;
-	sw = new Switch(v);
+	sw = new OperationSwitch();
 	led = new StatusLight();
 }
 

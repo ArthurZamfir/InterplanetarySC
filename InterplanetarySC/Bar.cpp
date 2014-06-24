@@ -3,29 +3,18 @@
 #include <math.h>
 #include <string>
 
-Bar::Bar (VESSEL3 *v,std::string attribute,DWORD x,DWORD y,double *val,double max)
-  : PanelElement (v)
+Bar::Bar (std::string attribute,DWORD x,DWORD y,double *val,double max)
 {
 	label = attribute;
 	xPos = x;
 	yPos = y;
 	value = val;
 	maxValue = max;
-	lastRefreshTime = 0;
+	lastPercentageValue = std::floor(*val/max*100 +0.5); //will always round to the nearest
 }
 
-//The source-file should be instruments.dds
-bool Bar::Redraw2D(SURFHANDLE tgt,SURFHANDLE src)
+bool Bar::draw(SURFHANDLE tgt,SURFHANDLE src)
 {
-	//Diese Funktion sorgt dafür, dass nur einmal pro sekunde
-	//aktualisiert wird.
-	if(!(oapiGetSysTime()-1.0>lastRefreshTime))
-	{
-		return false;
-	}
-
-	lastRefreshTime = oapiGetSysTime();
-
 	int percentage;
 	int x,w,i,len;
 	
@@ -35,6 +24,12 @@ bool Bar::Redraw2D(SURFHANDLE tgt,SURFHANDLE src)
 		percentage = 100;
 	else
 		percentage = std::floor(*value/maxValue*100 +0.5);//will always round to the nearest
+	
+	//Abfrage ob sich der ganzzahlige Prozentstand im Vergleich zum letzten mal
+	//geändert hat
+	if(lastPercentageValue == percentage)
+		return false;
+	lastPercentageValue = percentage;
 
 	//Copy Alpha-Channel totarget location
 	oapiBlt(tgt,src,xPos,yPos,alphaX,alphaY,alphaW,alphaH);
@@ -57,7 +52,5 @@ bool Bar::Redraw2D(SURFHANDLE tgt,SURFHANDLE src)
 			fontYStart, w, fontH);
 		x += w;
 	}
-
-	return false;
 
 }

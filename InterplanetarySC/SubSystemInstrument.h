@@ -4,7 +4,7 @@
 #include "TexturePositions.h"
 #include "SubSystem.h"
 #include "Bar.h"
-#include "Switch.h"
+#include "OperationSwitch.h"
 #include "StatusLight.h"
 
 class SubSystemInstrument: public PanelElement {
@@ -15,7 +15,7 @@ public:
   
 private:
 	SubSystem *ss;
-	Switch *sw;
+	OperationSwitch *sw;
 	StatusLight *led;
 	Bar *bar; // Pointer to dynamic array
 	DWORD xPos,yPos;

@@ -82,9 +82,8 @@
     <ClCompile Include="Radiator.cpp" />
     <ClCompile Include="StatusLight.cpp" />
     <ClCompile Include="SubSystem.cpp" />
-    <ClCompile Include="Button.cpp" />
     <ClCompile Include="SubSystemInstrument.cpp" />
-    <ClCompile Include="Switch.cpp" />
+    <ClCompile Include="OperationSwitch.cpp" />
     <ClCompile Include="ThermalFissionGenerator.cpp" />
     <ClCompile Include="Thruster.cpp" />
     <ClCompile Include="WaterTank.cpp" />
@@ -104,10 +103,9 @@
     <ClInclude Include="Radiator.h" />
     <ClInclude Include="StatusLight.h" />
     <ClInclude Include="SubSystem.h" />
-    <ClInclude Include="Button.h" />
     <ClInclude Include="SubSystemInstrument.h" />
     <ClInclude Include="SubSystemLib.h" />
-    <ClInclude Include="Switch.h" />
+    <ClInclude Include="OperationSwitch.h" />
     <ClInclude Include="ThermalFissionGenerator.h" />
     <ClInclude Include="Thruster.h" />
     <ClInclude Include="WaterTank.h" />
