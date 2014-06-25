@@ -6,7 +6,7 @@
 class Bar{
 public:
 	Bar (std::string attribute,DWORD x,DWORD y,double *val,double max);
-	bool draw (SURFHANDLE tgt,SURFHANDLE src);
+	bool draw (SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy);
 private:
 	std::string label;
 	double *value;

@@ -1,3 +1,4 @@
+#pragma once
 #define AID_BUTTON						201
 #define IDB_BITMAP1                     101
 #define AID_MFD_LBUTTONS				301

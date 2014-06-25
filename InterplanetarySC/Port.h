@@ -1,5 +1,4 @@
-#ifndef __PORT_H_INCLUDED__
-#define __PORT_H_INCLUDED__
+#pragma once
 /*
 Diese Port-Klasse definiert sozusagen die den Stecker/Anschluss eines Links
 an ein Subsystem. Auf diesen Port können vom angschlossenen Subsystem 
@@ -29,5 +28,3 @@ public:
 	void deactivate();
 	std::string getClassifier();
 };
-
-#endif

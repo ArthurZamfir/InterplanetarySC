@@ -1,5 +1,4 @@
-#ifndef __HYDROGEN_TANK_H_INCLUDED__
-#define __HYDROGEN_TANK_H_INCLUDED__
+#pragma once
 #include "SubSystem.h"
 
 class HydrogenTank: public SubSystem
@@ -11,5 +10,3 @@ public:
 	HydrogenTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount);
 	void calculateStep();
 };
-
-#endif

@@ -1,6 +1,4 @@
-#ifndef __RADIATOR_H_INCLUDED__
-#define __RADIATOR_H_INCLUDED__
-
+#pragma once
 
 #include "SubSystem.h"
 
@@ -13,5 +11,3 @@ public:
 	Radiator(VESSEL3 *vessel,std::string name,double *time,double startHeat,double maxHeat);
 	void calculateStep();
 };
-
-#endif

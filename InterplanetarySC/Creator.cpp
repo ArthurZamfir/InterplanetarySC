@@ -1,6 +1,5 @@
 #define ORBITER_MODULE
 #include "Bar.h"
-#include "Button.h"
 #include <Windows.h>
 #include <stdio.h>
 #include "orbitersdk.h"
@@ -11,6 +10,8 @@
 #include "InterplanetarySC.h"
 #include <map>
 #include "SubSystemLib.h"
+#include "Link.h"
+#include "SubSystemInstrument.h"
 
 
 class InterplanetarySC:public VESSEL3
@@ -30,8 +31,7 @@ public:
 	double *simTimePtr;
 	bool clbkPanelMouseEvent(int id,int event,int mx,int my,void *context);
 	bool clbkPanelRedrawEvent(int id,int event,SURFHANDLE surf,void *context);
-	PanelElement *pel[2];
-	PanelElement *barTest[3];
+	std::vector<SubSystemInstrument*> subSysInstruments;
 	void clbkMFDMode (int mfd, int mode);
 	void clbkPreStep(double simt,double simdt,double mjd);	
 private:	
@@ -54,8 +54,6 @@ Logger subSystemLog("SubSystems.txt");
 InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmodel)
 {
 	hPanelMesh = NULL;
-	for (int i = 0; i < 2; i++)
-		pel[i] = new MFDButtonCol (this, i);
 	simTimePtr = &simTime;
 	simTimeLast = 0;
 	createSubSystems();
@@ -66,11 +64,6 @@ InterplanetarySC::~InterplanetarySC()
 	if(hPanelMesh) oapiDeleteMesh(hPanelMesh);
 	oapiDestroySurface(panel2dtex);
 	oapiDestroySurface(instrumentTex);
-	for (int i = 0; i < 2; i++)
-		delete pel[i];
-	int barCount = sizeof(barTest)/sizeof(barTest[0]);
-	for (int i = 0; i < barCount; i++)
-		delete barTest[i];
 	delete simTimePtr;
 }
 
@@ -85,22 +78,21 @@ DLLCLBK void InitModule (HINSTANCE hModule)
 
 void InterplanetarySC::createSubSystems()
 {
-	WaterTank *water1 = new WaterTank(this,"WasserTank1",simTimePtr);
-	barTest[0] = new Bar(this,water1->getName(),10,50,water1->getAmount(),5000.0);
-	OxygenTank *oxy1 = new OxygenTank(this,"SauerstoffTank1",simTimePtr);
-	barTest[1] = new Bar(this,oxy1->getName(),10,100,oxy1->getAmount(),5000.0);
-	HydrogenTank *hydro1 = new HydrogenTank(this,"WasserstoffTank1",simTimePtr);
-	barTest[2] = new Bar(this,hydro1->getName(),10,150,hydro1->getAmount(),5000.0);
-	Thruster *thrus1 = new Thruster(this,"Thruster1",simTimePtr);
+	WaterTank *water1 = new WaterTank(this,"WasserTank1",simTimePtr,4000,5000);
+	OxygenTank *oxy1 = new OxygenTank(this,"SauerstoffTank1",simTimePtr,5000,5000);
+	HydrogenTank *hydro1 = new HydrogenTank(this,"WasserstoffTank1",simTimePtr,5000,5000);
+	Thruster *thrus1 = new Thruster(this,"Thruster1",simTimePtr,8000,4000,"MAIN");
+	FuelCell *fc1 = new FuelCell(this,"Brennstoffzelle1",simTimePtr,0.4,4,1000);
+	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000);
+	Radiator *radiator1 = new Radiator(this,"Radiator1",simTimePtr,0,50000);
 	/*Thruster *thrus2 = new Thruster("Thruster2");
 	Thruster *thrus3 = new Thruster("Thruster3");
 	Thruster *thrus4 = new Thruster("Thruster4");*/
-	FuelCell *fc1 = new FuelCell(this,"Brennstoffzelle1",simTimePtr);
-	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr);
+	
 	/*Battery *bat2 = new Battery("Batterie2");
 	Battery *bat3 = new Battery("Batterie3");*/
 	//ThermalFissionGenerator *tfg1 = new ThermalFissionGenerator("Reaktor1");
-	Radiator *radiator1 = new Radiator(this,"Radiator1",simTimePtr);
+	
 
 	subsys.push_back(water1);
 	subsys.push_back(oxy1);
@@ -238,13 +230,31 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 		PANEL_ATTACH_BOTTOM | PANEL_MOVEOUT_BOTTOM);
 
   //Bar Test
-	int barCount = sizeof(barTest)/sizeof(barTest[0]);
-   for (int i = 0; i < barCount; i++)
+	int gap = 30;
+	int yCurrent = 30;
+	int xCurrent = 30;
+	int ySpaceLeft = panelH - yCurrent;
+	int areaID = 1000;
+	std::vector<SubSystem*>::iterator it;
+	for (it = subsys.begin(); it != subsys.end(); ++it)
    {
-	RegisterPanelArea(hPanel, AID_BAR_BUTTON, _R(0,0,1,1),
+	   //Abfrage ob noch genug Abstand in der aktuellen Spalte vorhanden ist.
+	   //Wenn nicht wird in der nächsten Spalte weiter gemacht.
+	   int instrumentHeight = 50 + (*it)->getAllAttributes().size()*50;
+	   if((ySpaceLeft - instrumentHeight) < 30){
+		   xCurrent = xCurrent + 230;
+		   yCurrent = 30;
+		   ySpaceLeft = panelH - yCurrent;
+	   }else{
+		   ySpaceLeft = ySpaceLeft - instrumentHeight -gap;
+		   yCurrent = yCurrent + instrumentHeight +gap;
+	   }
+		subSysInstruments.push_back(new SubSystemInstrument(this,(*it),xCurrent,yCurrent));
+		RegisterPanelArea(hPanel, areaID, _R(xCurrent+10,yCurrent+10,xCurrent+40,yCurrent+40),
 		PANEL_REDRAW_ALWAYS,
-    PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
-	panel2dtex, barTest[i]);
+		PANEL_MOUSE_LBDOWN|PANEL_MOUSE_LBPRESSED|PANEL_MOUSE_ONREPLAY,
+		panel2dtex, subSysInstruments.back());
+		areaID++;
    }
 
 }
@@ -262,10 +272,7 @@ void InterplanetarySC::ScalePanel(PANELHANDLE hPanel, DWORD viewW, DWORD viewH)
 bool InterplanetarySC::clbkPanelMouseEvent(int id,int event,int mx,int my,void *context)
 {
 	std::string s = std::to_string(event)  +" - " + std::to_string(mx)  +" - "+ std::to_string(my);
-	systemLog.logLine(s);
-	systemLog.logLine("PENIS");
   if (context) {
-	systemLog.logLine("CLICKED!");
     PanelElement *pe = (PanelElement*)context;
     return pe->ProcessMouse2D (event, mx, my);
   } else

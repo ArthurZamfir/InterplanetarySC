@@ -4,14 +4,14 @@
 
 class OperationSwitch{
 public:
-	OperationSwitch (DWORD x,DWORD y,OPERATION_MODE *operationMode);
-	bool draw(SURFHANDLE tgt,SURFHANDLE src);
+	OperationSwitch (DWORD x,DWORD y);
+	void drawSwitchON(SURFHANDLE tgt,SURFHANDLE src,double dx,double dy);
+	void drawSwitchOFF(SURFHANDLE tgt,SURFHANDLE src,double dx,double dy);
 
 private:
-	OPERATION_MODE *om;
-	OPERATION_MODE lastOM;
+	//OPERATION_MODE *om;
+	//OPERATION_MODE lastOM;
 	DWORD xPos,yPos;
 
-	void drawSwitchON();
-	void drawSwitchOFF();
+	
 };

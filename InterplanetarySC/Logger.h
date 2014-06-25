@@ -1,3 +1,4 @@
+#pragma once
 /*
 Diese Klasse ermöglicht es einzelne Logdateien zu schreiben um das
 Bugfixing zu erleichtern. Zudem kann es auch als Schiffs-Logbuch

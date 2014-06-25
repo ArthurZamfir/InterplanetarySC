@@ -1,11 +1,41 @@
 #pragma once
-const int alphaX = 0;
-const int alphaY = 18;
-const int alphaW = 100;
-const int alphaH = 16;
-const int texX = 0;
-const int texY = 0;
-const int texH = 16;
+const int backX0 = 0;
+const int backY0 = 100;
+const int backWidth = 200;
+const int backHeight = 50;
+
+const int switchOnX0 = 0;
+const int switchOnY0 = 150;
+const int switchOnWidth = 30;
+const int switchOnHeight = 30;
+
+const int switchOffX0 = 30;
+const int switchOffY0 = 150;
+const int switchOffWidth = 30;
+const int switchOffHeight = 30;
+
+const int barX0 = 0;
+const int barY0 = 0;
+const int barWidth = 100;
+const int barHeight = 16;
+
+const int barBackX0 = 5;
+const int barBackY0 = 117;
+const int barBackWidth = 100;
+const int barBackHeight = 16;
+
+const int ledGreenX0 = 0;
+const int ledGreenY0 = 200;
+const int ledBlackX0 = 12;
+const int ledBlackY0 = 200;
+const int ledYellowX0 = 24;
+const int ledYellowY0 = 200;
+const int ledRedX0 = 36;
+const int ledRedY0 = 200;
+
+const int ledWidht = 12;
+const int ledHeight = 12;
+
 
 const int fontXStart = 103;
 const int fontYStart = 0;

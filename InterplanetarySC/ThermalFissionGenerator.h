@@ -1,5 +1,4 @@
-#ifndef __THERMAL_FISSION_GENERATOR_H_INCLUDED__
-#define __THERMAL_FISSION_GENERATOR_H_INCLUDED__
+#pragma once
 #include "SubSystem.h"
 
 class ThermalFissionGenerator: public SubSystem
@@ -17,5 +16,3 @@ public:
 		double startRadiation,double maxRadiation);
 	void calculateStep();
 };
-
-#endif

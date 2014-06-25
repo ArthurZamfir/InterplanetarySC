@@ -1,5 +1,4 @@
-#ifndef __BATTERY_H_INCLUDED__
-#define __BATTERY_H_INCLUDED__
+#pragma once
 #include "SubSystem.h"
 
 class Battery: public SubSystem
@@ -11,5 +10,3 @@ public:
 	Battery(VESSEL3 *vessel,std::string name,double *time,double startCharge,double maxCharge);
 	void calculateStep();
 };
-
-#endif

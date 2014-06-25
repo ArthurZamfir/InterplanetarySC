@@ -109,6 +109,11 @@ std::map<std::string,double*> SubSystem::getAllAttributes()
 	return attributes;
 }
 
+std::map<std::string,double> SubSystem::getAllMaxAttributes()
+{
+	return maxAttributes;
+}
+
 
 void SubSystem::activateAllPorts()
 {
@@ -218,4 +223,17 @@ void SubSystem::resetPortValuesWithClassifier(std::string classifier)
 		if(pos->first.compare(classifier) == 0)
 			pos->second->setValue(0.0);
 	}
+}
+
+OPERATION_MODE SubSystem::getOperationMode()
+{
+	return operationMode;
+}
+
+bool SubSystem::isActive()
+{
+	if((operationMode == ACTIVE) || (operationMode == ACTIVE_WARNING) || (operationMode == ACTIVE_ERROR))
+		return true;
+	else
+		return false;
 }

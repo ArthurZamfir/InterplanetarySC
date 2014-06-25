@@ -1,5 +1,4 @@
-#ifndef __LINK_H_INCLUDED__
-#define __LINK_H_INCLUDED__
+#pragma once
 /*
 Diese Klasse definiert, wie zwei Subsysteme miteinander verknüpft werden können.
 Dabei wird dem Link ein sogenannter "Classifier" als String übergeben, welcher
@@ -26,5 +25,3 @@ public:
 	void transfer();
 	Port* getPort();
 };
-
-#endif

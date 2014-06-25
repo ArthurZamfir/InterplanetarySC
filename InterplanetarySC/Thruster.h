@@ -1,5 +1,4 @@
-#ifndef __THRUSTER_H_INCLUDED__
-#define __THRUSTER_H_INCLUDED__
+#pragma once
 #include "SubSystem.h"
 
 class Thruster: public SubSystem
@@ -12,5 +11,3 @@ public:
 	Thruster(VESSEL3 *vessel,std::string name,double *time,double thrust,double impulse,std::string thrGroup);
 	void calculateStep();
 };
-
-#endif

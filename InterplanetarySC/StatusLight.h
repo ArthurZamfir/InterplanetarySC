@@ -5,11 +5,10 @@
 
 class StatusLight{
 public:
-	StatusLight (DWORD x,DWORD y,OPERATION_MODE *operationMode);
-	bool draw(SURFHANDLE tgt,SURFHANDLE src);
+	StatusLight (DWORD x,DWORD y);
+	void drawStatus(SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy,OPERATION_MODE op);
+	void drawActive(SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy,bool active);
 
 private:
-	OPERATION_MODE *om;
-	OPERATION_MODE lastOM;
 	DWORD xPos,yPos;
 };

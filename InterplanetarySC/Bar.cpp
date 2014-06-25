@@ -13,7 +13,7 @@ Bar::Bar (std::string attribute,DWORD x,DWORD y,double *val,double max)
 	lastPercentageValue = std::floor(*val/max*100 +0.5); //will always round to the nearest
 }
 
-bool Bar::draw(SURFHANDLE tgt,SURFHANDLE src)
+bool Bar::draw(SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy)
 {
 	int percentage;
 	int x,w,i,len;
@@ -32,10 +32,10 @@ bool Bar::draw(SURFHANDLE tgt,SURFHANDLE src)
 	lastPercentageValue = percentage;
 
 	//Copy Alpha-Channel totarget location
-	oapiBlt(tgt,src,xPos,yPos,alphaX,alphaY,alphaW,alphaH);
+	oapiBlt(tgt,src,xPos+dx,yPos+dy,barBackX0,barBackY0,barBackWidth,barBackHeight);
 
 	//Overlay with textured map
-	oapiBlt(tgt,src,xPos,yPos,texX,texY,percentage,texH);
+	oapiBlt(tgt,src,xPos+dx,yPos+dy,barX0,barY0,percentage,barHeight);
 	
 	//Write label with value next to bar
 	std::string s = label;
@@ -45,12 +45,14 @@ bool Bar::draw(SURFHANDLE tgt,SURFHANDLE src)
 	len = s.length();
 	for (w = i = 0; i < len; i++)
         w += font_width[s[i]];
-	for (i = 0, x = xPos + 105; i < len; i++)
+	for (i = 0, x = xPos + barWidth + 5; i < len; i++)
 	{
 		w = font_width[s[i]];
-		oapiBlt(tgt, src, x, yPos + 2, font_xpos[s[i]]+fontXStart,
+		oapiBlt(tgt, src, x+dx, yPos + 2 +dy, font_xpos[s[i]]+fontXStart,
 			fontYStart, w, fontH);
 		x += w;
 	}
+
+	return true;
 
 }

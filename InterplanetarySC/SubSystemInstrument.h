@@ -16,13 +16,15 @@ public:
 private:
 	SubSystem *ss;
 	OperationSwitch *sw;
-	StatusLight *led;
-	Bar *bar; // Pointer to dynamic array
+	StatusLight *led1;
+	StatusLight *led2;
+	std::vector<Bar> bar;
 	DWORD xPos,yPos;
 	double lastRefreshTime;
-
-	void initializeInstrument();
+	int attributeCount;
+	bool firstDraw;
+	bool switchedState;
+	OPERATION_MODE operationMode;
+	void drawText(std::string text,SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy);
+	int getPanelHeight();
 };
-
-
-

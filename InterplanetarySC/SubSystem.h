@@ -1,5 +1,4 @@
-#ifndef __SUBSYSTEM_H_INCLUDED__
-#define __SUBSYSTEM_H_INCLUDED__
+#pragma once
 /*
 Diese header Datei beschreibt den Prinzipiellen Aufbau eines Subsystems.
 In Anlehnung an das Beobachter-Muster können sich hier andere Subsysteme
@@ -13,11 +12,20 @@ Subsystem seine (errechneten) Daten in andere Subsysteme speichern kann.
 */
 #include "Orbitersdk.h"
 #include "Port.h"
-#include "SubSystemLib.h"
 #include <map>
 #include <string>
 #include <vector>
 
+
+/*
+In dieser Auflistung sind die jeweiligen Zustände des Subsystems enthalten.
+Je nach dem welchen Zustand das System gerade hat, kann es sich anders verhalten.
+Zudem kann damit überprüft werden, ob sich das System Fehlerhaft verhält, bzw
+eine Warnung ausgibt, z.B. bei einem geringen Füllstand des Wassertanks.
+*/
+enum OPERATION_MODE{
+	ACTIVE,PASSIVE,ACTIVE_WARNING,PASSIVE_WARNING,ACTIVE_ERROR,PASSIVE_ERROR
+};
 
 
 class SubSystem
@@ -63,6 +71,9 @@ public:
 	void connectPortToInput(Port*);
 	void connectPortToOutput(Port*);
 	std::map<std::string,double*> getAllAttributes();
+	std::map<std::string,double> getAllMaxAttributes();
+	OPERATION_MODE getOperationMode();
+	bool isActive();
 	/*
 	In dieser Funktion werden auf Basis der Attribute und der 
 	*/
@@ -85,5 +96,3 @@ das bedeutet aber dass man ein paar hübsche und vor allem schnelle Methoden brau
 um allgemein auf den inhalt dieser Multimap zuzugreifen. Zudem muss beim zugriff
 eigentlich auch überprüft werden, ob das angeschlossene Subsystem ACTIVE ist oder nicht
 und somit ein Strom fließen kann.*/
-
-#endif
