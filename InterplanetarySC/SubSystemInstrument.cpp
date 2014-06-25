@@ -34,7 +34,7 @@ bool SubSystemInstrument::Redraw2D(SURFHANDLE tgt,SURFHANDLE src)
 {
 	//Diese Funktion sorgt dafür, dass nur einmal pro sekunde
 	//aktualisiert wird.
-	if(!(oapiGetSysTime()-1.0>lastRefreshTime))
+	if(!(oapiGetSysTime()-0.03>lastRefreshTime))
 	{
 		return false;
 	}

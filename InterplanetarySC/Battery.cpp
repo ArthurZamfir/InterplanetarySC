@@ -1,13 +1,27 @@
 #include "Battery.h"
 
 
-Battery::Battery(VESSEL3 *vessel,std::string name,double *time,double startCharge,
-				 double maxCharge):SubSystem(vessel,name,time)
+Battery::Battery(VESSEL3 *vessel,std::string name,double *time,double startCharge,double maxCharge,
+		double chargeRate,double dischargeRate,double efficiency,double maxEfficiency,double temp,double minTemp,double maxTemp)
+				 :SubSystem(vessel,name,time)
 {
 	c = startCharge;
 	mc = maxCharge;
+	cr = chargeRate;
+	dcr = dischargeRate;
+	eff = efficiency;
+	meff = maxEfficiency;
+	t = temp;
+	minT = minTemp;
+	maxT = maxTemp;
+
 	attributes["Energy[J]"] = &c;
+	attributes["Efficiency[-]"] = &eff;
+	attributes["Temperature[K]"] = &temp;
+
 	maxAttributes["Energy[J]"] = maxCharge;
+	maxAttributes["Efficiency[-]"] = maxEfficiency;
+	maxAttributes["Temperature[K]"] = maxTemp;
 }
 
 void Battery::calculateStep()
@@ -17,19 +31,20 @@ void Battery::calculateStep()
 	double in = getPortValuesSum(input);
 	double out = getPortValuesSum(output);
 
-	if(operationMode == ACTIVE)
+	if(isActive())
 	{
-		if(c<mc)
-		{
-			c = c + in;
-			writePortValuesEqual(input,1.0);
+		c = c + in - out;
+		//TEMPERATUR
+		//Energy demand
+		if(c<mc){
+			writePortValuesEqual(input,cr*(*simTime));
 		}
-		if(c>=mc)
-		{
+		//No energy demand
+		if(c>=mc){
 			writePortValuesEqual(input,0.0);
 		}
 	}
-	if(operationMode == PASSIVE)
+	if(!isActive())
 	{
 		writePortValuesEqual(input,0.0);
 		writePortValuesEqual(output,0.0);

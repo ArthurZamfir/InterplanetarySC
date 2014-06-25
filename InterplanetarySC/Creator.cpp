@@ -83,7 +83,7 @@ void InterplanetarySC::createSubSystems()
 	HydrogenTank *hydro1 = new HydrogenTank(this,"WasserstoffTank1",simTimePtr,5000,5000);
 	Thruster *thrus1 = new Thruster(this,"Thruster1",simTimePtr,8000,4000,"MAIN");
 	FuelCell *fc1 = new FuelCell(this,"Brennstoffzelle1",simTimePtr,0.4,4,1000);
-	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000);
+	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000,0.64,0.64,300,270,340);
 	Radiator *radiator1 = new Radiator(this,"Radiator1",simTimePtr,0,50000);
 	/*Thruster *thrus2 = new Thruster("Thruster2");
 	Thruster *thrus3 = new Thruster("Thruster3");
