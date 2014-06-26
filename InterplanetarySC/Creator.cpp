@@ -176,8 +176,10 @@ void InterplanetarySC::createSubSystems()
 	fc1->deactivate();
 	hydroMain->setOperationMode(ACTIVE_WARNING);
 	//Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000,0.64,0.64,300,270,340);
-	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000,10,10,0.64,0.64,300,270,340);
-	Radiator *radiator1 = new Radiator(this,"Radiator1",simTimePtr,0,50000);
+	//Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000,10,10,0.64,0.64,300,270,340,5);
+	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,50000,900000,1000,10000,0.9,0.9,300,270,320,5000,400,5);
+	Radiator *radiator1 = new Radiator(this,"Radiator1",simTimePtr,5000,1000000,100);
+	Heater *heater1 = new Heater(this,"Heater1",simTimePtr,5000000,0.8,0.8);
 	/*Thruster *thrus2 = new Thruster("Thruster2");
 	Thruster *thrus3 = new Thruster("Thruster3");
 	Thruster *thrus4 = new Thruster("Thruster4");*/
@@ -194,42 +196,40 @@ void InterplanetarySC::createSubSystems()
 	subsys.push_back(oxyRCS);
 	subsys.push_back(hydroRCS);
 	subsys.push_back(mainEngine);
-	subsys.push_back(rcs1);
-	subsys.push_back(rcs2);
-	subsys.push_back(rcs3);
-	subsys.push_back(rcs4);
-	subsys.push_back(rcs5);
-	subsys.push_back(rcs6);
-	subsys.push_back(rcs7);
-	subsys.push_back(rcs8);
-	subsys.push_back(rcs9);
-	subsys.push_back(rcs10);
-	subsys.push_back(rcs11);
-	subsys.push_back(rcs12);
-	subsys.push_back(rcs13);
-	subsys.push_back(rcs14);
-	subsys.push_back(rcs15);
-	subsys.push_back(rcs16);
-	subsys.push_back(rcs17);
-	subsys.push_back(rcs18);
+	subsys.push_back(fc1);
+	subsys.push_back(bat1);
+	subsys.push_back(radiator1);
+	subsys.push_back(heater1);
 
-	//Wenn die erstellten Thruster mit den Tanks verbunden werden, dann kackt es ab.
-
-
-
-
+	//subsys.push_back(rcs1);
+	//subsys.push_back(rcs2);
+	//subsys.push_back(rcs3);
+	//subsys.push_back(rcs4);
+	//subsys.push_back(rcs5);
+	//subsys.push_back(rcs6);
+	//subsys.push_back(rcs7);
+	//subsys.push_back(rcs8);
+	//subsys.push_back(rcs9);
+	//subsys.push_back(rcs10);
+	//subsys.push_back(rcs11);
+	//subsys.push_back(rcs12);
+	//subsys.push_back(rcs13);
+	//subsys.push_back(rcs14);
+	//subsys.push_back(rcs15);
+	//subsys.push_back(rcs16);
+	//subsys.push_back(rcs17);
+	//subsys.push_back(rcs18);
 
 
 
 	//subsys.push_back(thrus2);
 	//subsys.push_back(thrus3);
 	/*subsys.push_back(thrus4);*/
-	subsys.push_back(fc1);
-	subsys.push_back(bat1);
+
 	//subsys.push_back(bat2);
 	//subsys.push_back(bat3);
 	//subsys.push_back(tfg1);
-	subsys.push_back(radiator1);
+
 
 	//Links instanzieren
 	Link *h2a = new Link("H2");
@@ -238,8 +238,12 @@ void InterplanetarySC::createSubSystems()
 	Link *o2b = new Link("O2");
 	Link *h2oa = new Link("H2O");
 	Link *h2ob = new Link("H2O");
-	Link *heat1 = new Link("Heat[J]");
 	Link *power1 = new Link("Energy[J]");
+	Link *power2 = new Link("Energy[J]");
+	Link *heat1 = new Link("Heat[J]");
+	Link *heat2 = new Link("Heat[J]");
+	Link *heat3 = new Link("Heat[J]");
+
 
 	links.push_back(h2a);
 	links.push_back(h2b);
@@ -249,6 +253,9 @@ void InterplanetarySC::createSubSystems()
 	links.push_back(h2ob);
 	links.push_back(heat1);
 	links.push_back(power1);
+	links.push_back(power2);
+	links.push_back(heat2);
+	links.push_back(heat3);
 
 	//Ports verbinden
 	hydroMain->connectPortToOutput(h2a->getPort());
@@ -306,8 +313,16 @@ void InterplanetarySC::createSubSystems()
 	fc1->connectPortToOutput(h2ob->getPort());
 	fc1->connectPortToOutput(power1->getPort());
 	fc1->connectPortToOutput(heat1->getPort());
-	radiator1->connectPortToInput(heat1->getPort());
+	fc1->connectPortToOutput(power2->getPort());
+
 	bat1->connectPortToInput(power1->getPort());
+	bat1->connectPortToInput(heat2->getPort());
+	bat1->connectPortToOutput(heat3->getPort());
+	heater1->connectPortToInput(power2->getPort());
+	heater1->connectPortToOutput(heat2->getPort());
+	radiator1->connectPortToInput(heat1->getPort());
+	radiator1->connectPortToInput(heat3->getPort());
+
 }
 
 

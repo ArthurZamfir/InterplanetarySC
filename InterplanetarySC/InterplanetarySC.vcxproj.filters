@@ -129,6 +129,9 @@
     <ClCompile Include="OperationSwitch.cpp">
       <Filter>Source Files\MyInstruments</Filter>
     </ClCompile>
+    <ClCompile Include="Heater.cpp">
+      <Filter>Source Files\SubSystem\TCS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Logger.h">
@@ -190,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="OperationSwitch.h">
       <Filter>Header Files\MyInstruments</Filter>
+    </ClInclude>
+    <ClInclude Include="Heater.h">
+      <Filter>Header Files\SubSystems\TCS</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

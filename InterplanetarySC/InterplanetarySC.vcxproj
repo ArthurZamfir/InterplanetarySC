@@ -73,6 +73,7 @@
     <ClCompile Include="Battery.cpp" />
     <ClCompile Include="Creator.cpp" />
     <ClCompile Include="FuelCell.cpp" />
+    <ClCompile Include="Heater.cpp" />
     <ClCompile Include="HydrogenTank.cpp" />
     <ClCompile Include="Instrument.cpp" />
     <ClCompile Include="Link.cpp" />
@@ -91,6 +92,7 @@
   <ItemGroup>
     <ClInclude Include="Bar.h" />
     <ClInclude Include="Battery.h" />
+    <ClInclude Include="Heater.h" />
     <ClInclude Include="TexturePositions.h" />
     <ClInclude Include="FuelCell.h" />
     <ClInclude Include="HydrogenTank.h" />

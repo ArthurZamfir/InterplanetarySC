@@ -38,14 +38,8 @@ protected:
 
 
 	std::string sName;
-	//std::vector<Port*> inputStreams;
-	//std::vector<Port*> outputStreams;
 	std::multimap<std::string,Port*> inputStreams;
 	std::multimap<std::string,Port*> outputStreams;
-	//std::map<std::string,double> input;
-	//std::map<std::string,double> output;
-	//std::map<SubSystem*,std::vector<std::string>> inputSystems;
-	//std::map<SubSystem*,std::vector<std::string>> outputSystems;
 	std::map<std::string,double*> attributes;
 	std::map<std::string,double> maxAttributes;
 	OPERATION_MODE operationMode;
@@ -74,6 +68,9 @@ public:
 	std::map<std::string,double> getAllMaxAttributes();
 	OPERATION_MODE getOperationMode();
 	void setOperationMode(OPERATION_MODE);
+	void setWarning();
+	void setNominal();
+	void setError();
 	bool isActive();
 	/*
 	In dieser Funktion werden auf Basis der Attribute und der 

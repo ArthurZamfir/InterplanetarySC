@@ -242,3 +242,24 @@ void SubSystem::setOperationMode(OPERATION_MODE op)
 {
 	operationMode = op;
 }
+
+void SubSystem::setNominal(){
+	if(isActive())
+		setOperationMode(ACTIVE);
+	else
+		setOperationMode(PASSIVE);
+}
+
+void SubSystem::setWarning(){
+	if(isActive())
+		setOperationMode(ACTIVE_WARNING);
+	else
+		setOperationMode(PASSIVE_WARNING);
+}
+
+void SubSystem::setError(){
+	if(isActive())
+		setOperationMode(ACTIVE_ERROR);
+	else
+		setOperationMode(PASSIVE_ERROR);
+}
