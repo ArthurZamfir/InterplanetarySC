@@ -237,3 +237,8 @@ bool SubSystem::isActive()
 	else
 		return false;
 }
+
+void SubSystem::setOperationMode(OPERATION_MODE op)
+{
+	operationMode = op;
+}

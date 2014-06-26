@@ -30,12 +30,12 @@ OperationSwitch::OperationSwitch(DWORD x,DWORD y)
 //	return true;
 //}
 
-void OperationSwitch::drawSwitchON(SURFHANDLE tgt,SURFHANDLE src,double dx,double dy)
+void OperationSwitch::drawSwitchON(SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy)
 {
 	oapiBlt(tgt,src,xPos+dx,yPos+dy,switchOnX0,switchOnY0,switchOnWidth,switchOnHeight);
 }
 
-void OperationSwitch::drawSwitchOFF(SURFHANDLE tgt,SURFHANDLE src,double dx,double dy)
+void OperationSwitch::drawSwitchOFF(SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy)
 {
 	oapiBlt(tgt,src,xPos+dx,yPos+dy,switchOffX0,switchOffY0,switchOffWidth,switchOffHeight);
 }

@@ -17,7 +17,7 @@ Battery::Battery(VESSEL3 *vessel,std::string name,double *time,double startCharg
 
 	attributes["Energy[J]"] = &c;
 	attributes["Efficiency[-]"] = &eff;
-	attributes["Temperature[K]"] = &temp;
+	attributes["Temperature[K]"] = &t;
 
 	maxAttributes["Energy[J]"] = maxCharge;
 	maxAttributes["Efficiency[-]"] = maxEfficiency;

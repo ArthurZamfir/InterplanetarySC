@@ -13,4 +13,5 @@ private:
 	double maxValue;
 	int lastPercentageValue;
 	DWORD xPos,yPos;
+	bool firstDraw;
 };

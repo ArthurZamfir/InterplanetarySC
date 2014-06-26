@@ -73,6 +73,7 @@ public:
 	std::map<std::string,double*> getAllAttributes();
 	std::map<std::string,double> getAllMaxAttributes();
 	OPERATION_MODE getOperationMode();
+	void setOperationMode(OPERATION_MODE);
 	bool isActive();
 	/*
 	In dieser Funktion werden auf Basis der Attribute und der 
