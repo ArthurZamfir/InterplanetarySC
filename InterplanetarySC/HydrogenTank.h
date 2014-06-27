@@ -1,12 +1,13 @@
 #pragma once
 #include "SubSystem.h"
 
-class HydrogenTank: public SubSystem
-{
-private:
-	double val;
-	double maxVal;
+class HydrogenTank: public SubSystem {
 public:
-	HydrogenTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount);
-	void calculateStep();
+  HydrogenTank(VESSEL3* vessel,std::string name,double* time,double amount,double maxAmount);
+
+  void calculateStep();
+
+private:
+  double amount_;
+  double maxAmount_;
 };

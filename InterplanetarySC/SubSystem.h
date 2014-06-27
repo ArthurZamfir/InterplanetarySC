@@ -1,4 +1,23 @@
 #pragma once
+#include "Orbitersdk.h"
+#include "Port.h"
+#include <map>
+#include <string>
+#include <vector>
+
+
+
+/*
+In dieser Auflistung sind die jeweiligen Zustände des Subsystems enthalten.
+Je nach dem welchen Zustand das System gerade hat, kann es sich anders verhalten.
+Zudem kann damit überprüft werden, ob sich das System Fehlerhaft verhält, bzw
+eine Warnung ausgibt, z.B. bei einem geringen Füllstand des Wassertanks.
+*/
+enum Status{
+  STATUS_ACTIVE,STATUS_PASSIVE,STATUS_ACTIVE_WARNING,STATUS_PASSIVE_WARNING,
+  STATUS_ACTIVE_ERROR,STATUS_PASSIVE_ERROR
+};
+
 /*
 Diese header Datei beschreibt den Prinzipiellen Aufbau eines Subsystems.
 In Anlehnung an das Beobachter-Muster können sich hier andere Subsysteme
@@ -10,87 +29,50 @@ auch im Kreis fließen. Eine sich daraus ergebende unendliche Schleife wird
 umgangen, indem auf die aktualisieren() Funktion verzichtet wird und jedes
 Subsystem seine (errechneten) Daten in andere Subsysteme speichern kann.
 */
-#include "Orbitersdk.h"
-#include "Port.h"
-#include <map>
-#include <string>
-#include <vector>
-
-
-/*
-In dieser Auflistung sind die jeweiligen Zustände des Subsystems enthalten.
-Je nach dem welchen Zustand das System gerade hat, kann es sich anders verhalten.
-Zudem kann damit überprüft werden, ob sich das System Fehlerhaft verhält, bzw
-eine Warnung ausgibt, z.B. bei einem geringen Füllstand des Wassertanks.
-*/
-enum OPERATION_MODE{
-	ACTIVE,PASSIVE,ACTIVE_WARNING,PASSIVE_WARNING,ACTIVE_ERROR,PASSIVE_ERROR
-};
-
-
-class SubSystem
-{
-protected:
-	VESSEL3 *v;
-
-
-	double *simTime;
-
-
-	std::string sName;
-	std::multimap<std::string,Port*> inputStreams;
-	std::multimap<std::string,Port*> outputStreams;
-	std::map<std::string,double*> attributes;
-	std::map<std::string,double> maxAttributes;
-	OPERATION_MODE operationMode;
-
-	//Hier sollen die input-map und output-map erzeugt werden.
-	//Da diese je nach Subsystem unterschiedlich sind werden sie in den
-	//abgeleiteten Klassen definiert.
-	void activateAllPorts();
-	void deactivateAllPorts();
-	std::vector<Port*> collectAllActiveSubSystemsWithClassifier(std::multimap<std::string,Port*>,std::string);
-	double getPortValuesSum(std::vector<Port*>);
-	void writePortValuesEqual(std::vector<Port*>,double);
-	void resetAllPortValues();
-	void resetPortValuesWithClassifier(std::string);
+class SubSystem {
 public:
-	SubSystem(VESSEL3 *vessel,std::string,double *time);
-	~SubSystem(void);
-	std::string getName();
-	void activate();
-	void deactivate();
-	std::string report();
-	std::string getStatusAsString();
-	void connectPortToInput(Port*);
-	void connectPortToOutput(Port*);
-	std::map<std::string,double*> getAllAttributes();
-	std::map<std::string,double> getAllMaxAttributes();
-	OPERATION_MODE getOperationMode();
-	void setOperationMode(OPERATION_MODE);
-	void setWarning();
-	void setNominal();
-	void setError();
-	bool isActive();
-	/*
-	In dieser Funktion werden auf Basis der Attribute und der 
-	*/
-	virtual void calculateStep(){}
-	/*
-	Wenn sich die Werte der inputs und outputs dieses Subsystems durch die Funktion
-	calculateStep() geändert haben,dann sollen die neuen Werte den angeschlossenen Subsystemen
-	zugewiesen werden. Dies impliziert aber, dass die Information zwischen den Systemen immer
-	nur in eine Richtung fließen darf.
-	Somit kann ein Input beispielsweise einen Wert "aufgezwungen" bekommen, oder aber sich
-	einen Wert vom angeschlossenen Subsystem holen.
-	*/
+  SubSystem(VESSEL3* vessel,std::string,double* time);
+  ~SubSystem(void);
+
+  std::string getName();
+  void activate();
+  void deactivate();
+  std::string report();
+  std::string getStatusAsString();
+  void connectPortToInput(Port*);
+  void connectPortToOutput(Port*);
+  std::map<std::string,double*> getAllAttributes();
+  std::map<std::string,double> getAllMaxAttributes();
+  Status getStatus();
+  void setStatus(Status status);
+  void setWarning();
+  void setNominal();
+  void setError();
+  bool isActive();
+  virtual void calculateStep(){}
+  /*
+  Wenn sich die Werte der inputs und outputs dieses Subsystems durch die Funktion
+  calculateStep() geändert haben,dann sollen die neuen Werte den angeschlossenen Subsystemen
+  zugewiesen werden. Dies impliziert aber, dass die Information zwischen den Systemen immer
+  nur in eine Richtung fließen darf.
+  Somit kann ein Input beispielsweise einen Wert "aufgezwungen" bekommen, oder aber sich
+  einen Wert vom angeschlossenen Subsystem holen.
+  */
+protected:
+  VESSEL3* v_;
+  double* simTime_;
+  std::string sName_;
+  std::multimap<std::string,Port*> inputStreams_;
+  std::multimap<std::string,Port*> outputStreams_;
+  std::map<std::string,double*> attributes_;
+  std::map<std::string,double> maxAttributes_;
+  Status status_;
+
+  void activateAllPorts();
+  void deactivateAllPorts();
+  std::vector<Port*> collectAllActiveSubSystemsWithClassifier(std::multimap<std::string,Port*>,std::string);
+  double getPortValuesSum(std::vector<Port*>);
+  void writePortValuesEqual(std::vector<Port*>,double);
+  void resetAllPortValues();
+  void resetPortValuesWithClassifier(std::string);
 };
-
-
-/*Ein großes Problem ergibt sich, wenn man an ein Subsystem mehrere Ports
-hängen will, die aber den selben Key haben, wie z.B. "Power". In einer Map
-wird dieser Key dann ersetzt. Man könnte das System auf eine Multimap umstellen,
-das bedeutet aber dass man ein paar hübsche und vor allem schnelle Methoden braucht
-um allgemein auf den inhalt dieser Multimap zuzugreifen. Zudem muss beim zugriff
-eigentlich auch überprüft werden, ob das angeschlossene Subsystem ACTIVE ist oder nicht
-und somit ein Strom fließen kann.*/

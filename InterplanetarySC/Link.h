@@ -1,4 +1,7 @@
 #pragma once
+#include <string>
+#include "Port.h"
+
 /*
 Diese Klasse definiert, wie zwei Subsysteme miteinander verknüpft werden können.
 Dabei wird dem Link ein sogenannter "Classifier" als String übergeben, welcher
@@ -9,19 +12,17 @@ werden einfach die Informationen an den Ports vertauscht. Somit können Ströme in
 beide Richtungen fließen, je nach dem was das entsprechende Subsystem auf den Port
 schreibt.
 */
-#include <string>
-#include "Port.h"
-
-class Link
-{
-private:
-	Port p1,p2;
-	Port *ptrp1,*ptrp2;
-	std::string classi;
+class Link {
 public:
-	Link(std::string classifier);
-	~Link(void);
+  Link(std::string classifier);
+  ~Link(void);
 
-	void transfer();
-	Port* getPort();
+  void transfer();
+  Port* getPort();
+
+private:
+  Port port1_,port2_;
+  Port* p1_;
+  Port* p2_;
+  std::string classi_;
 };

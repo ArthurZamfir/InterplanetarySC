@@ -1,26 +1,46 @@
 #include "WaterTank.h"
 
-WaterTank::WaterTank(VESSEL3 *vessel,std::string name,double *time,double amount,double maxAmount):SubSystem(vessel,name,time)
+WaterTank::WaterTank(VESSEL3* vessel,std::string name,double* time,double amount,double maxAmount):SubSystem(vessel,name,time)
 {
-	val = amount;
-	maxVal = maxAmount;
-	attributes["Amount[kg]"] = &val;
-	maxAttributes["Amount[kg]"] = maxAmount;
+	amount_ = amount;
+	maxAmount_ = maxAmount;
+	attributes_["Amount[kg]"] = &amount_;
+	maxAttributes_["Amount[kg]"] = maxAmount;
 }
 
 void WaterTank::calculateStep()
 {
-	std::vector<Port*> input = collectAllActiveSubSystemsWithClassifier(inputStreams,"O2");
-	std::vector<Port*> output = collectAllActiveSubSystemsWithClassifier(outputStreams,"O2");
-	double in = getPortValuesSum(input);
-	double out = getPortValuesSum(output);
+  std::vector<Port*> input = collectAllActiveSubSystemsWithClassifier(inputStreams_,"H2O");
+  std::vector<Port*> output = collectAllActiveSubSystemsWithClassifier(outputStreams_,"H2O");
+  
+  //Constraints
+  double in = getPortValuesSum(input);
+  double out = getPortValuesSum(output);
 
-	if(operationMode == ACTIVE)
-	{
-		val = val + in - out;
+  if(isActive()) {
+	double tempAmount = amount_ + in - out;
+	bool flowPossible = ( (tempAmount > 0) && (tempAmount <= maxAmount_) );
+	if(flowPossible) {
+	  amount_ = tempAmount;
+	  writePortValuesEqual(input,in);
+	  writePortValuesEqual(output,out);
 	}
-	if(operationMode == PASSIVE)
-	{
-		resetAllPortValues();
+	else {
+	  writePortValuesEqual(input,0.0);
+	  writePortValuesEqual(output,0.0);
 	}
+  }
+
+  if(!isActive()) {
+	writePortValuesEqual(input,0.0);
+	writePortValuesEqual(output,0.0);
+  }
+
+  setNominal();
+  //Warnung anzeigen
+  if( (amount_ / maxAmount_) < 0.1 )
+	setWarning();
+  //Fehler anzeigen
+  if( (amount_ / maxAmount_) < 0.001 )
+	setError();
 }

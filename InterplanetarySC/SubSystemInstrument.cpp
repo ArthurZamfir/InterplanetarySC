@@ -9,25 +9,21 @@ da durch eine doppelte iteration hier eine runtime-exception auftritt.
 Stattdessen wird von Aussen nach Erstellung der Objekte die funktion
 initialize() aufgerufen.
 */
-SubSystemInstrument::SubSystemInstrument (VESSEL3 *v,SubSystem *subSystem,DWORD x,DWORD y)
+SubSystemInstrument::SubSystemInstrument (VESSEL3* v,SubSystem* subSystem,DWORD x,DWORD y)
   : PanelElement (v)
 {
-	ss = subSystem;
-	xPos = x;
-	yPos = y;
-	firstDraw = true;
+	ss_ = subSystem;
+	xPos_ = x;
+	yPos_ = y;
+	firstDraw_ = true;
 
-	sw = new OperationSwitch(xPos,yPos);
-	led1 = new StatusLight(xPos,yPos);
-	led2 = new StatusLight(xPos,yPos);
-	attributeCount = ss->getAllAttributes().size();
-
-	//for(int i = 0; i < attributeCount ; i++){
-	//	std::string attribute = ss-
-	//}
+	sw_ = new OperationSwitch(xPos_,yPos_);
+	led1_ = new StatusLight(xPos_,yPos_);
+	led2_ = new StatusLight(xPos_,yPos_);
+	attributeCount_ = ss_->getAllAttributes().size();
 
 	//Copy map
-	std::map<std::string,double*> temp = ss->getAllAttributes();
+	std::map<std::string,double*> temp = ss_->getAllAttributes();
 
 	//create all Bar-Objects
 		for (std::map<std::string,double*>::iterator it = temp.begin();
@@ -35,80 +31,77 @@ SubSystemInstrument::SubSystemInstrument (VESSEL3 *v,SubSystem *subSystem,DWORD 
 	{
 		std::string attribute = it->first;
 		double *val = it->second;
-		double maxValue = ss->getAllMaxAttributes()[attribute];
-		bar.push_back(Bar(attribute,xPos,yPos,val,maxValue));
+		double maxValue = ss_->getAllMaxAttributes()[attribute];
+		bar_.push_back(Bar(attribute,xPos_,yPos_,val,maxValue));
 	}
 
-
-	
-	switchedState = ss->isActive();
-	operationMode = ss->getOperationMode();
-
+	switchedState_ = ss_->isActive();
+	status_ = ss_->getStatus();
 }
 
 //The source-file should be instruments.dds
-bool SubSystemInstrument::Redraw2D(SURFHANDLE tgt,SURFHANDLE src)
+bool SubSystemInstrument::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
 {
 	//Diese Funktion sorgt dafür, dass nur einmal pro sekunde
 	//aktualisiert wird.
-	if(!(oapiGetSysTime()-0.03>lastRefreshTime))
+	if(!(oapiGetSysTime()-0.03>lastRefreshTime_))
 	{
 		return false;
 	}
-	lastRefreshTime = oapiGetSysTime();
+	lastRefreshTime_ = oapiGetSysTime();
 
 	//Initial Draw with SubSystem-Canvas
-	if(firstDraw)
+	if(firstDraw_)
 	{
-		firstDraw = false;
-		for (int i = 0; i <= attributeCount; i++)
+		firstDraw_ = false;
+		for (int i = 0; i <= attributeCount_; i++)
 		{
-			oapiBlt(tgt,src,xPos,yPos+i*backHeight,backX0,backY0,backWidth,backHeight);
+			oapiBlt(tgt,src,xPos_,yPos_+i*backHeight,backX0,backY0,backWidth,backHeight);
 		}
 		//Draw SubSystem Name
-		drawText(ss->getName(),tgt,src,55,20);
+		drawText(ss_->getName(),tgt,src,55,20);
 		//Draw "Active"
 		drawText("Active",tgt,src,75,35);
 		//Draw "Status"
 		drawText("Status",tgt,src,145,35);
 		//Draw Switch
-		if(switchedState){
-			sw->drawSwitchON(tgt,src,10,10);
+		if(switchedState_){
+			sw_->drawSwitchON(tgt,src,10,10);
 		}else{
-			sw->drawSwitchOFF(tgt,src,10,10);
+			sw_->drawSwitchOFF(tgt,src,10,10);
 		}
 		//Draw Lights
-		led2->drawStatus(tgt,src,130,35,operationMode);
-		led1->drawActive(tgt,src,60,35,switchedState);
+		led2_->drawStatus(tgt,src,130,35,status_);
+		led1_->drawActive(tgt,src,60,35,switchedState_);
 		//Draw Bars
 		int i=0;
-		for (std::vector<Bar>::iterator it = bar.begin(); it != bar.end(); ++it)
+		for (std::vector<Bar>::iterator it = bar_.begin(); it != bar_.end(); ++it)
 		{
 			it->draw(tgt,src,5,67+i*50);
 			i++;
 		}		
 	}
 	//Draw Switch
-	if(ss->isActive() != switchedState){
-		switchedState = ss->isActive();
-		if(switchedState){
-			sw->drawSwitchON(tgt,src,10,10);
+	if(ss_->isActive() != switchedState_){
+		switchedState_ = ss_->isActive();
+		if(switchedState_){
+			sw_->drawSwitchON(tgt,src,10,10);
 			
 		}			
 		else{
-			sw->drawSwitchOFF(tgt,src,10,10);
+			sw_->drawSwitchOFF(tgt,src,10,10);
 		}
-		led1->drawActive(tgt,src,60,35,switchedState);
+		led1_->drawActive(tgt,src,60,35,switchedState_);
 	}
 	//Draw StatusLights
-	if(ss->getOperationMode() != operationMode)
+	if(ss_->getStatus() != status_)
 	{
-		operationMode = ss->getOperationMode();
-		led2->drawStatus(tgt,src,130,35,operationMode);
+		status_ = ss_->getStatus();
+		led2_->drawStatus(tgt,src,130,35,status_);
 	}
 	//Draw Bars
 	int i=0;
-	for (std::vector<Bar>::iterator it = bar.begin(); it != bar.end(); ++it)
+	for (std::vector<Bar>::iterator it = bar_.begin(); it != bar_.end(); ++it)
 		{
 			it->draw(tgt,src,5,67+i*50);
 			i++;
@@ -119,26 +112,26 @@ bool SubSystemInstrument::Redraw2D(SURFHANDLE tgt,SURFHANDLE src)
 }bool SubSystemInstrument::ProcessMouse2D (int event, int mx, int my)
 {
 
-		if(switchedState){
-			ss->deactivate();
+		if(switchedState_){
+			ss_->deactivate();
 		}
 		else{
-			ss->activate();
+			ss_->activate();
 		}
 		return true;
 
 }
 
-void SubSystemInstrument::drawText(std::string text,SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy)
+void SubSystemInstrument::drawText (std::string text,SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy)
 {
 	int w,i,x;
 	int len = text.length();
 	for (w = i = 0; i < len; i++)
         w += font_width[text[i]];
-	for (i = 0, x = xPos + dx; i < len; i++)
+	for (i = 0, x = xPos_ + dx; i < len; i++)
 	{
 		w = font_width[text[i]];
-		oapiBlt(tgt, src, x, yPos + dy, font_xpos[text[i]]+fontXStart,
+		oapiBlt(tgt, src, x, yPos_ + dy, font_xpos[text[i]]+fontXStart,
 			fontYStart, w, fontH);
 		x += w;
 	}
@@ -146,6 +139,6 @@ void SubSystemInstrument::drawText(std::string text,SURFHANDLE tgt,SURFHANDLE sr
 
 int SubSystemInstrument::getPanelHeight()
 {
-	int height = 50 + attributeCount*50;
+	int height = 50 + attributeCount_*50;
 	return height;
 }

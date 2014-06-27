@@ -1,41 +1,41 @@
 #include "ThermalFissionGenerator.h"
 
 
-ThermalFissionGenerator::ThermalFissionGenerator(VESSEL3 *vessel,std::string name,double *time,
+ThermalFissionGenerator::ThermalFissionGenerator(VESSEL3* vessel,std::string name,double* time,
 		double temperature,double maxTemperature,double startPower,double maxPower,
 		double startRadiation,double maxRadiation):SubSystem(vessel,name,time)
 {
-	temp = temperature;
-	mTemp = maxTemperature;
-	power = startPower;
-	mPower = maxPower;
-	rad = startRadiation;
-	mRad = maxRadiation;
+	temp_ = temperature;
+	mTemp_ = maxTemperature;
+	power_ = startPower;
+	mPower_ = maxPower;
+	rad_ = startRadiation;
+	mRad_ = maxRadiation;
 
-	attributes["Temp[K]"] = &temp;
-	attributes["Power[W]"] = &power;
-	attributes["Radiation[Sv]"] = &rad;
+	attributes_["Temp[K]"] = &temp_;
+	attributes_["Power[W]"] = &power_;
+	attributes_["Radiation[Sv]"] = &rad_;
 
-	maxAttributes["Temp[K]"] = maxTemperature;
-	maxAttributes["Power[W]"] = maxPower;
-	maxAttributes["Radiation[Sv]"] = maxRadiation;
+	maxAttributes_["Temp[K]"] = maxTemperature;
+	maxAttributes_["Power[W]"] = maxPower;
+	maxAttributes_["Radiation[Sv]"] = maxRadiation;
 }
 
 void ThermalFissionGenerator::calculateStep()
 {
-	outputStreams.find("Energy[J]")->second->getValue();
+	outputStreams_.find("Energy[J]")->second->getValue();
 
 	/*
 	Es wird angenommen, dass die Leistung des Generators alle angeschlossenen
 	Verbraucher mit Elektrischer ENergie versorgt. Die restliche Energie wird
 	in Form von Wärme[J] an die Radiatoren abgegeben.
 	*/
-	if(operationMode == ACTIVE)
+	if(isActive())
 	{
 		double elEnergy;
 		double heatEnergy;
-		elEnergy = getPortValuesSum(collectAllActiveSubSystemsWithClassifier(outputStreams,"Energy[J]"));
-		heatEnergy = power * (*simTime) - elEnergy;
+		elEnergy = getPortValuesSum(collectAllActiveSubSystemsWithClassifier(outputStreams_,"Energy[J]"));
+		heatEnergy = power_ * (*simTime_) - elEnergy;
 
 
 		//Hier sollte noch eine Funktion rein, die die Temperatur oder andere

@@ -3,9 +3,9 @@
 
 Port::Port()
 {
-	attached = false;
-	active = true;
-	v = 0.0;
+	attached_ = false;
+	active_ = true;
+	v_ = 0.0;
 }
 
 
@@ -15,61 +15,50 @@ Port::~Port(void)
 
 void Port::setClassifier(std::string classifier)
 {
-	classi = classifier;
+	classi_ = classifier;
 }
 
 double Port::getValue()
 {
-	return v;
+	return v_;
 }
 
 void Port::setValue(double value)
 {
-	v = value;
+	v_ = value;
 }
 
 void Port::addValue(double value)
 {
-	v = v + value;
+	v_ = v_ + value;
 }
-
-//void Port::setSubSystem(SubSystem *ss)
-//{
-//	s = ss;
-//	attached = true;
-//}
-
-//SubSystem *Port::getSubSystem()
-//{
-//	return s;
-//}
 
 bool Port::isAttached()
 {
-	return attached;
+	return attached_;
 }
 
 void Port::setAttached()
 {
-	attached = true;
+	attached_ = true;
 }
 
 std::string Port::getClassifier()
 {
-	return classi;
+	return classi_;
 }
 
 bool Port::isActive()
 {
-	return active;
+	return active_;
 }
 
 void Port::activate()
 {
-	active = true;
+	active_ = true;
 }
 
 void Port::deactivate()
 {
-	active = false;
+	active_ = false;
 }

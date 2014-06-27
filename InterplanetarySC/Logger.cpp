@@ -4,28 +4,28 @@
 
 Logger::Logger(std::string name)
 {
-	filename = name;
+	filename_ = name;
 
 }
 Logger::~Logger(void)
 {
-	file.close();
+	file_.close();
 }
 
 void Logger::logLine(std::string str)
 {
-	if(!file.is_open())
-		file.open(filename,std::fstream::app | std::fstream::out);
-	file << str << '\n';
-	file.close();
+	if(!file_.is_open())
+		file_.open(filename_,std::fstream::app | std::fstream::out);
+	file_ << str << '\n';
+	file_.close();
 }
 
 void Logger::open()
 {
-	file.open(filename);
+	file_.open(filename_);
 }
 
 void Logger::close()
 {
-	file.close();
+	file_.close();
 }

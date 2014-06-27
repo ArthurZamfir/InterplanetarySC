@@ -1,24 +1,24 @@
 #include "Heater.h"
 
-Heater::Heater(VESSEL3 *vessel,std::string name,double *time,double maxPower,double efficiency,double maxEfficiency)
+Heater::Heater(VESSEL3* vessel,std::string name,double* time,double maxPower,double efficiency,double maxEfficiency)
 				 :SubSystem(vessel,name,time)
 {
-	p = 0.0;
-	mp = maxPower;
-	eff = efficiency;
-	meff = maxEfficiency;
+	p_ = 0.0;
+	mp_ = maxPower;
+	eff_ = efficiency;
+	meff_ = maxEfficiency;
 
-	attributes["Power[J]"] = &p;
-	attributes["Efficiency[-]"] = &eff;
+	attributes_["Power[J]"] = &p_;
+	attributes_["Efficiency[-]"] = &eff_;
 
-	maxAttributes["Power[J]"] = maxPower;
-	maxAttributes["Efficiency[-]"] = maxEfficiency;
+	maxAttributes_["Power[J]"] = maxPower;
+	maxAttributes_["Efficiency[-]"] = maxEfficiency;
 }
 
 void Heater::calculateStep()
 {
-	std::vector<Port*> inputEnergy = collectAllActiveSubSystemsWithClassifier(inputStreams,"Energy[J]");
-	std::vector<Port*> outputHeat = collectAllActiveSubSystemsWithClassifier(outputStreams,"Heat[J]");
+	std::vector<Port*> inputEnergy = collectAllActiveSubSystemsWithClassifier(inputStreams_,"Energy[J]");
+	std::vector<Port*> outputHeat = collectAllActiveSubSystemsWithClassifier(outputStreams_,"Heat[J]");
 
 	double inE = getPortValuesSum(inputEnergy);
 	double outH = getPortValuesSum(outputHeat);
@@ -26,27 +26,27 @@ void Heater::calculateStep()
 	double heat;
 	double el = 0;
 	//Maximal erzeugbare energie im Zeitschritt
-	double maxEnergy = mp * (*simTime);
+	double maxEnergy = mp_ * (*simTime_);
 	if(isActive())
 	{
 		//Wärmeenergie liefern
-		heat = inE * eff;
+		heat = inE * eff_;
 		writePortValuesEqual(outputHeat,heat);
 		//Elektrische Energie Anfordern
 		
-		el = outH * 1/eff;
+		el = outH * 1/eff_;
 
 		if(el > maxEnergy)
 			el = maxEnergy;
 		writePortValuesEqual(inputEnergy,el);
 		//Power berechnen
-		p = el/(*simTime);
+		p_ = el/(*simTime_);
 	}
 	if(!isActive())
 	{
 		writePortValuesEqual(inputEnergy,0.0);
 		writePortValuesEqual(outputHeat,0.0);
-		p = 0.0;
+		p_ = 0.0;
 	}
 
 	//Nominal
