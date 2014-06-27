@@ -41,6 +41,7 @@ private:
 	std::vector<SubSystemInstrument*> subSysInstruments_;
 	PROPELLANT_HANDLE mainTank_;
 	MESHHANDLE hPanelMesh_;
+
 	void runSubSystemSimulationStep(std::vector<SubSystem*> subsys,std::vector<Link*> links);
 	void DefineMainPanel(PANELHANDLE hPanel);
 	void ScalePanel(PANELHANDLE hPanel, DWORD viewW, DWORD viewH);
@@ -68,6 +69,13 @@ InterplanetarySC::~InterplanetarySC()
 	oapiDestroySurface(panel2dtex_);
 	oapiDestroySurface(instrumentTex_);
 	delete simTimePtr_;
+}
+
+DLLCLBK VESSEL* ovcInit(OBJHANDLE hvessel,int flightmodel)
+{
+	VESSEL3* pVessel;
+	pVessel = new InterplanetarySC(hvessel,flightmodel);
+	return pVessel;
 }
 
 void InterplanetarySC::clbkSetClassCaps(FILEHANDLE cfg)
@@ -463,9 +471,3 @@ bool InterplanetarySC::clbkPanelRedrawEvent(int id,int event,SURFHANDLE surf,voi
 
 }
 
-DLLCLBK VESSEL* ovcInit(OBJHANDLE hvessel,int flightmodel)
-{
-	VESSEL3* pVessel;
-	pVessel = new InterplanetarySC(hvessel,flightmodel);
-	return pVessel;
-}

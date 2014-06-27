@@ -111,6 +111,8 @@ void Battery::calculateStep()
   {
 	writePortValuesEqual(inputEnergy,0.0);
 	writePortValuesEqual(outputEnergy,0.0);
+	writePortValuesEqual(inputHeat,0.0);
+	writePortValuesEqual(outputHeat,0.0);
   }
 
   //Nominal
