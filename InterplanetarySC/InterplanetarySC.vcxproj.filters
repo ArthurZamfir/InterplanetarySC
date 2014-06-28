@@ -137,9 +137,6 @@
     <ClInclude Include="Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="InterplanetarySC.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Link.h">
       <Filter>Header Files\SubSystems</Filter>
     </ClInclude>

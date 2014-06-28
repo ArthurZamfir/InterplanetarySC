@@ -5,7 +5,7 @@ Port::Port()
 {
 	attached_ = false;
 	active_ = true;
-	v_ = 0.0;
+	value_ = 0.0;
 }
 
 
@@ -15,22 +15,17 @@ Port::~Port(void)
 
 void Port::setClassifier(std::string classifier)
 {
-	classi_ = classifier;
+  classifier_ = classifier;
 }
 
 double Port::getValue()
 {
-	return v_;
+	return value_;
 }
 
 void Port::setValue(double value)
 {
-	v_ = value;
-}
-
-void Port::addValue(double value)
-{
-	v_ = v_ + value;
+	value_ = value;
 }
 
 bool Port::isAttached()
@@ -45,7 +40,7 @@ void Port::setAttached()
 
 std::string Port::getClassifier()
 {
-	return classi_;
+	return classifier_;
 }
 
 bool Port::isActive()

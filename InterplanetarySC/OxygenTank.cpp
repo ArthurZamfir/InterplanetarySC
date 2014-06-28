@@ -14,7 +14,7 @@ void OxygenTank::calculateStep()
   std::vector<Port*> input = collectAllActiveSubSystemsWithClassifier(inputStreams_,"O2");
   std::vector<Port*> output = collectAllActiveSubSystemsWithClassifier(outputStreams_,"O2");
 
-  //Constraints
+  //Randbedingungen
   double in = getPortValuesSum(input);
   double out = getPortValuesSum(output);
 

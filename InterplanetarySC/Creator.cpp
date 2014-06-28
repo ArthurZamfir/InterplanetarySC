@@ -8,7 +8,6 @@
 #include "Logger.h"
 #include "SubSystem.h"
 #include "Thruster.h"
-#include "InterplanetarySC.h"
 #include <map>
 #include "SubSystemLib.h"
 #include "Link.h"
@@ -59,6 +58,7 @@ InterplanetarySC::InterplanetarySC(OBJHANDLE hObj,int fmodel):VESSEL3(hObj,fmode
 	hPanelMesh_ = NULL;
 	simTimePtr_ = &simTime_;
 	simTimeLast_ = 0;
+	//Texturen für die Visualisierung laden
 	InterplanetarySC::panel2dtex_ = oapiLoadTexture("InterplanetarySC\\blank.dds");
 	InterplanetarySC::instrumentTex_ = oapiLoadTexture("InterplanetarySC\\instruments.dds");
 }
@@ -176,20 +176,9 @@ void InterplanetarySC::createSubSystems()
 	FuelCell *fc1 = new FuelCell(this,"Brennstoffzelle1",simTimePtr_,0.4,4,3000);
 	fc1->deactivate();
 	hydroMain->setStatus(STATUS_ACTIVE_WARNING);
-	//Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000,0.64,0.64,300,270,340);
-	//Battery *bat1 = new Battery(this,"Batterie1",simTimePtr,100,1000,10,10,0.64,0.64,300,270,340,5);
 	Battery *bat1 = new Battery(this,"Batterie1",simTimePtr_,50000,900000,1000,10000,0.9,0.9,300,270,320,5000,400,5);
 	Radiator *radiator1 = new Radiator(this,"Radiator1",simTimePtr_,5000,1000000,100);
 	Heater *heater1 = new Heater(this,"Heater1",simTimePtr_,5000000,0.8,0.8);
-	/*Thruster *thrus2 = new Thruster("Thruster2");
-	Thruster *thrus3 = new Thruster("Thruster3");
-	Thruster *thrus4 = new Thruster("Thruster4");*/
-	
-	/*Battery *bat2 = new Battery("Batterie2");
-	Battery *bat3 = new Battery("Batterie3");*/
-	//ThermalFissionGenerator *tfg1 = new ThermalFissionGenerator("Reaktor1");
-	//SubSystemInstrument(this,water1,5,5);
-	//subSysInstruments.push_back(new SubSystemInstrument(this,water1,5,5));
 
 	subsys_.push_back(water1);
 	subsys_.push_back(oxyMain);
@@ -202,6 +191,7 @@ void InterplanetarySC::createSubSystems()
 	subsys_.push_back(radiator1);
 	subsys_.push_back(heater1);
 
+	// Diese zuweisungen sind auskommentiert, um die Visualisierung übersichtlicher zu machen
 	//subsys_.push_back(rcs1);
 	//subsys_.push_back(rcs2);
 	//subsys_.push_back(rcs3);
@@ -220,17 +210,6 @@ void InterplanetarySC::createSubSystems()
 	//subsys_.push_back(rcs16);
 	//subsys_.push_back(rcs17);
 	//subsys_.push_back(rcs18);
-
-
-
-	//subsys_.push_back(thrus2);
-	//subsys_.push_back(thrus3);
-	/*subsys_.push_back(thrus4);*/
-
-	//subsys_.push_back(bat2);
-	//subsys_.push_back(bat3);
-	//subsys_.push_back(tfg1);
-
 
 	//Links instanzieren
 	Link *h2a = new Link("H2");
@@ -304,10 +283,6 @@ void InterplanetarySC::createSubSystems()
 	//rcs18->connectPortToInput(h2a->getPort());
 	//rcs18->connectPortToInput(o2a->getPort());
 
-	//thrus2->connectPortToInput(h2a->getPort());
-	//thrus2->connectPortToInput(o2a->getPort());
-	//thrus3->connectPortToInput(h2a->getPort());
-	//thrus3->connectPortToInput(o2a->getPort());
 	fc1->connectPortToInput(h2b->getPort());
 	fc1->connectPortToInput(o2b->getPort());
 	fc1->connectPortToInput(h2oa->getPort());
@@ -339,6 +314,7 @@ void InterplanetarySC::clbkPreStep(double simt,double simdt,double mjd)
 	orbitalSpeed_ = orbitalSpeed_ - simt;
 }
 
+//Berechnung der Subsysteme
 void InterplanetarySC::runSubSystemSimulationStep(std::vector<SubSystem*> subsys,std::vector<Link*> links)
 {
 	std::vector<SubSystem*>::iterator ssit;
@@ -353,12 +329,9 @@ void InterplanetarySC::runSubSystemSimulationStep(std::vector<SubSystem*> subsys
 		{
 			(*linkit)->transfer();
 		}
-
-	//	for (ssit = subsys.begin();ssit!=subsys.end();++ssit)
-	//{
-	//	subSystemLog.logLine((*ssit)->report());
-	//}
 }
+
+
 bool InterplanetarySC::clbkLoadPanel2D(int id,PANELHANDLE hPanel,
 									   DWORD viewW, DWORD viewH)
 {
@@ -375,6 +348,7 @@ bool InterplanetarySC::clbkLoadPanel2D(int id,PANELHANDLE hPanel,
 	}
 
 }
+
 
 void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 {
@@ -405,7 +379,7 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 	SetPanelBackground(hPanel,&panel2dtex_,1,hPanelMesh_,panelW,panelH,0,
 		PANEL_ATTACH_BOTTOM | PANEL_MOVEOUT_BOTTOM);
 
-  //Bar Test
+	//Definition und Layout der Visualisierung
 	int gap = 50;
 	int yCurrent = 50;
 	int xCurrent = 50;
@@ -431,14 +405,6 @@ void InterplanetarySC::DefineMainPanel(PANELHANDLE hPanel)
 		ySpaceLeft = ySpaceLeft - instHeight -gap;
 		yCurrent = yCurrent + instHeight +gap;
     }
-	//Es wird hier nochmals über alle Subsyteme iteriert, um diese zu initialisieren.
-	//Eine initialisierung in der obigen Schleife verursacht durch einen doppelten
-	//Iteratorzugriff eine runtime-exception
-	//std::vector<SubSystemInstrument*>::iterator iti;
-	//for(iti = subSysInstruments.begin();iti != subSysInstruments.end(); ++iti){
-	//	(*iti)->initialize();
-	//}
-
 
 }
 

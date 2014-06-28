@@ -13,7 +13,7 @@ void WaterTank::calculateStep()
   std::vector<Port*> input = collectAllActiveSubSystemsWithClassifier(inputStreams_,"H2O");
   std::vector<Port*> output = collectAllActiveSubSystemsWithClassifier(outputStreams_,"H2O");
   
-  //Constraints
+  //Randbedingungen
   double in = getPortValuesSum(input);
   double out = getPortValuesSum(output);
 

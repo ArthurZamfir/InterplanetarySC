@@ -31,3 +31,5 @@ The generated dll file will be placed in the right folder "Orbiter\Modules\".
 2.  The config file named "InterplanetarySC.cfg" from the repository root should be placed in "Orbiter\Config\Vessels\"
 
 3.  The 3D model file from "SeminarDateien\Meshes\ThermalFissionCraft.msh" should be placed in "Orbiter\meshes\"
+
+4.  The "Textures" folder should be placed in the "Orbiter" main folder.

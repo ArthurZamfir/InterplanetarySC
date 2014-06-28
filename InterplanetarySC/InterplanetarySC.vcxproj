@@ -97,7 +97,6 @@
     <ClInclude Include="FuelCell.h" />
     <ClInclude Include="HydrogenTank.h" />
     <ClInclude Include="Instrument.h" />
-    <ClInclude Include="InterplanetarySC.h" />
     <ClInclude Include="Link.h" />
     <ClInclude Include="Logger.h" />
     <ClInclude Include="OxygenTank.h" />

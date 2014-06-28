@@ -22,10 +22,9 @@ SubSystemInstrument::SubSystemInstrument (VESSEL3* v,SubSystem* subSystem,DWORD 
 	led2_ = new StatusLight(xPos_,yPos_);
 	attributeCount_ = ss_->getAllAttributes().size();
 
-	//Copy map
 	std::map<std::string,double*> temp = ss_->getAllAttributes();
 
-	//create all Bar-Objects
+	//Erstelle Bar-Objekte
 		for (std::map<std::string,double*>::iterator it = temp.begin();
 		it != temp.end(); ++it)
 	{
@@ -39,7 +38,7 @@ SubSystemInstrument::SubSystemInstrument (VESSEL3* v,SubSystem* subSystem,DWORD 
 	status_ = ss_->getStatus();
 }
 
-//The source-file should be instruments.dds
+// Die src-Datei sollte instruments.dds sein
 bool SubSystemInstrument::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
 {
 	//Diese Funktion sorgt dafür, dass nur einmal pro sekunde
@@ -50,30 +49,30 @@ bool SubSystemInstrument::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
 	}
 	lastRefreshTime_ = oapiGetSysTime();
 
-	//Initial Draw with SubSystem-Canvas
 	if(firstDraw_)
 	{
 		firstDraw_ = false;
+		//Hintergrund
 		for (int i = 0; i <= attributeCount_; i++)
 		{
 			oapiBlt(tgt,src,xPos_,yPos_+i*backHeight,backX0,backY0,backWidth,backHeight);
 		}
-		//Draw SubSystem Name
+		//SubSystem Name
 		drawText(ss_->getName(),tgt,src,55,20);
-		//Draw "Active"
+		//"Active"
 		drawText("Active",tgt,src,75,35);
-		//Draw "Status"
+		//"Status"
 		drawText("Status",tgt,src,145,35);
-		//Draw Switch
+		//Schalter
 		if(switchedState_){
 			sw_->drawSwitchON(tgt,src,10,10);
 		}else{
 			sw_->drawSwitchOFF(tgt,src,10,10);
 		}
-		//Draw Lights
+		//Lichter
 		led2_->drawStatus(tgt,src,130,35,status_);
 		led1_->drawActive(tgt,src,60,35,switchedState_);
-		//Draw Bars
+		//Balken
 		int i=0;
 		for (std::vector<Bar>::iterator it = bar_.begin(); it != bar_.end(); ++it)
 		{
@@ -81,7 +80,7 @@ bool SubSystemInstrument::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
 			i++;
 		}		
 	}
-	//Draw Switch
+	//Schalter
 	if(ss_->isActive() != switchedState_){
 		switchedState_ = ss_->isActive();
 		if(switchedState_){
@@ -93,13 +92,13 @@ bool SubSystemInstrument::Redraw2D (SURFHANDLE tgt,SURFHANDLE src)
 		}
 		led1_->drawActive(tgt,src,60,35,switchedState_);
 	}
-	//Draw StatusLights
+	//Lichter
 	if(ss_->getStatus() != status_)
 	{
 		status_ = ss_->getStatus();
 		led2_->drawStatus(tgt,src,130,35,status_);
 	}
-	//Draw Bars
+	//Balken
 	int i=0;
 	for (std::vector<Bar>::iterator it = bar_.begin(); it != bar_.end(); ++it)
 		{

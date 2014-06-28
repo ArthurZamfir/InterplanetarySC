@@ -14,7 +14,7 @@ void HydrogenTank::calculateStep()
   std::vector<Port*> input = collectAllActiveSubSystemsWithClassifier(inputStreams_,"H2");
   std::vector<Port*> output = collectAllActiveSubSystemsWithClassifier(outputStreams_,"H2");
 
-  //Constraints
+  //Randbedingungen
   double in = getPortValuesSum(input);
   double out = getPortValuesSum(output);
 

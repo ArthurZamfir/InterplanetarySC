@@ -1,1 +1,0 @@
-Die Texturen werden im Laufe des Semesters nachgeliefert.

@@ -27,10 +27,10 @@ void FuelCell::calculateStep()
 	std::vector<Port*> oxygenTanksIn = collectAllActiveSubSystemsWithClassifier(inputStreams_,"O2");
 	std::vector<Port*> radiators = collectAllActiveSubSystemsWithClassifier(outputStreams_,"Heat[J]");
 
-	//Constraints
+	//Randbedingungen
 	double requiredEnergy = getPortValuesSum(activeConsumers);
 
-	//Variables
+	//Variablen
 	double waterIn = getPortValuesSum(waterTanksIn);
 	double waterOut = getPortValuesSum(waterTanksIn);
 	double hydroIn = getPortValuesSum(hydrogenTanksIn);

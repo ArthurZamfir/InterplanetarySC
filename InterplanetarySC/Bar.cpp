@@ -11,7 +11,7 @@ Bar::Bar (std::string attribute,DWORD x,DWORD y,double* val,double max)
 	yPos_ = y;
 	value_ = val;
 	maxValue_ = max;
-	lastPercentageValue_ = static_cast<int>(std::floor(*val/max*100 +0.5)); //will always round to the nearest
+	lastPercentageValue_ = static_cast<int>(std::floor(*val/max*100 +0.5)); // immer auf den nächsten Wert runden
 	firstDraw_ = true;
 }
 
@@ -25,7 +25,7 @@ bool Bar::draw (SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy)
 	else if(*value_>maxValue_)
 		percentage = 100;
 	else
-		percentage = static_cast<int>(std::floor(*value_/maxValue_*100 +0.5));//will always round to the nearest
+		percentage = static_cast<int>(std::floor(*value_/maxValue_*100 +0.5)); // immer auf den nächsten Wert runden
 	
 	//Abfrage ob sich der ganzzahlige Prozentstand im Vergleich zum letzten mal
 	//geändert hat. Beim ersten aufrufen wird auf jeden fall geschrieben.
@@ -33,16 +33,16 @@ bool Bar::draw (SURFHANDLE tgt,SURFHANDLE src,DWORD dx,DWORD dy)
 		return false;
 	lastPercentageValue_ = percentage;
 
-	// Remove Artifacts from previous draw
+	// Entfernung von Artefakten
 	oapiBlt(tgt,src,xPos_+dx-5,yPos_+dy-5,backX0,backY0+12,barBackWidth + 8,barBackHeight + 10);
 
-	//Copy Black background to target location
+	//Schwarzen Hintergrund kopieren
 	oapiBlt(tgt,src,xPos_+dx,yPos_+dy,barBackX0,barBackY0,barBackWidth,barBackHeight);
 
-	//Overlay with textured map
+	//Mit Farb-Balken überlagern
 	oapiBlt(tgt,src,xPos_+dx,yPos_+dy,barX0,barY0,percentage,barHeight);
 	
-	//Write label with value next to bar
+	// Werte neben den Balken schreiben
 	double v = *value_;
 	double mv = maxValue_;
 	

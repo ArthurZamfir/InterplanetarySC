@@ -59,18 +59,18 @@ public:
   einen Wert vom angeschlossenen Subsystem holen.
   */
 protected:
-  VESSEL3* v_;
+  VESSEL3* vessel_;
   double* simTime_;
-  std::string sName_;
+  std::string name_;
   std::multimap<std::string,Port*> inputStreams_;
   std::multimap<std::string,Port*> outputStreams_;
   std::map<std::string,double*> attributes_;
   std::map<std::string,double> maxAttributes_;
   Status status_;
 
+  std::vector<Port*> collectAllActiveSubSystemsWithClassifier(std::multimap<std::string,Port*>,std::string);
   void activateAllPorts();
   void deactivateAllPorts();
-  std::vector<Port*> collectAllActiveSubSystemsWithClassifier(std::multimap<std::string,Port*>,std::string);
   double getPortValuesSum(std::vector<Port*>);
   void writePortValuesEqual(std::vector<Port*>,double);
   void resetAllPortValues();

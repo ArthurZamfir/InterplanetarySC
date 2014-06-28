@@ -2,20 +2,20 @@
 
 SubSystem::SubSystem(VESSEL3* vessel,std::string name,double* time)
 {
-  v_=vessel;
+  vessel_=vessel;
   simTime_ = time;
-  sName_=name;
+  name_=name;
   status_ = STATUS_ACTIVE;
 }
 
 SubSystem::~SubSystem(void)
 {
-  delete v_;
+  delete vessel_;
 }
 
 std::string SubSystem::getName()
 {
-  return sName_;
+  return name_;
 }
 
 void SubSystem::activate()
@@ -89,7 +89,7 @@ void SubSystem::deactivate()
 std::string SubSystem::report()
 {
   std::string s;
-  s.append("==== " + sName_ + " ====\n");
+  s.append("==== " + name_ + " ====\n");
   s.append("Status:\t");
   s.append(SubSystem::getStatusAsString());
   s.append("\n");

@@ -16,7 +16,6 @@ public:
   void setClassifier(std::string classifier);
   double getValue();
   void setValue(double value);
-  void addValue(double value);
   bool isAttached();
   void setAttached();
   bool isActive();
@@ -27,6 +26,6 @@ public:
 private:
   bool attached_;
   bool active_;
-  double v_;
-  std::string classi_;
+  double value_;
+  std::string classifier_;
 };
